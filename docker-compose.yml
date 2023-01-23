@@ -1,0 +1,48 @@
+version: '3.8'
+services:
+    client:
+        container_name: client
+        build:
+            context: ./client
+            dockerfile: react.Dockerfile
+        volumes:
+            - ./client:/client
+            - /client/node_modules
+        ports:
+            - 3000:3000
+        environment:
+            - WATCHPACK_POLLING=true
+        depends_on:
+            - api
+
+    api:
+        container_name: api
+        build:
+            context: .
+            dockerfile: Dockerfile
+        ports:
+            - 8000:8000
+        volumes:
+            - .:/app
+            - /app/node_modules
+        environment:
+            - PORT=8000
+            - MONGO_INITDB_ROOT_USERNAME=nees
+            - MONGO_INITDB_ROOT_PASSWORD=nees
+        depends_on:
+            - mongo
+
+    mongo:
+        container_name: mongo
+        image: mongo
+        environment:
+            - MONGO_INITDB_ROOT_USERNAME=nees
+            - MONGO_INITDB_ROOT_PASSWORD=nees
+        ports:
+            - 27017:27017
+        volumes:
+            - mongoDB:/data/db
+        restart: unless-stopped
+
+volumes:
+    mongoDB: # Making the volume accessible by other containers
