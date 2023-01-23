@@ -22,7 +22,7 @@ const connectDB = async () => {
 connectDB();
 
 app.get('/', (req, res) => {
-    res.send('Fully setup of MongoDB , React and Express server... ');
+    res.send('BLAFOISFSAOIFALGKLSngOIA... ');
 });
 
 app.listen(PORT, () =>
