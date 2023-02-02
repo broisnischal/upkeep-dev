@@ -15,7 +15,7 @@ const serverDebug = debug('server:server');
  * Get port from environment and store in Express.
  */
 
-const port = normalizePort(process.env.PORT || '3000');
+const port = normalizePort(process.env.PORT || '8000');
 app.set('port', port);
 
 /**
@@ -27,6 +27,8 @@ const server = http.createServer(app);
 /**
  * Listen on provided port, on all network interfaces.
  */
+mongoose.set('strictQuery', true);
+// mongodb://127.0.0.1:27017/upkeepdev
 
 mongoose
     .connect(MONGO_URI)

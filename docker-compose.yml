@@ -19,12 +19,12 @@ services:
         container_name: server
         build:
             context: ./server
-            dockerfile: server.Dockerfile
-        ports:
-            - 8000:8000
+            dockerfile: Dockerfile
         volumes:
             - .:/server
             - /server/node_modules
+        ports:
+            - 8000:8000
         environment:
             - PORT=8000
             - MONGO_INITDB_ROOT_USERNAME=nees
