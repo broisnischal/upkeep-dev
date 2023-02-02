@@ -13,16 +13,16 @@ services:
         environment:
             - WATCHPACK_POLLING=true
         depends_on:
-            - server
+            - api
 
-    server:
-        container_name: server
+    api:
+        container_name: api
         build:
-            context: ./server
+            context: ./api
             dockerfile: Dockerfile
         volumes:
-            - .:/server
-            - /server/node_modules
+            - .:/api
+            - /api/node_modules
         ports:
             - 8000:8000
         environment:
