@@ -2,11 +2,12 @@ version: '3.8'
 services:
     client:
         container_name: client
+        image: clientimage:v1
         build:
             context: ./client
             dockerfile: react.Dockerfile
         volumes:
-            - ./client:/client
+            - .:/client
             - /client/node_modules
         ports:
             - 3000:3000
@@ -14,9 +15,12 @@ services:
             - WATCHPACK_POLLING=true
         depends_on:
             - api
+        networks:
+            - internalnet
 
     api:
         container_name: api
+        image: apiimage:v1
         build:
             context: ./api
             dockerfile: Dockerfile
@@ -31,6 +35,8 @@ services:
             - MONGO_INITDB_ROOT_PASSWORD=nees
         depends_on:
             - mongo
+        networks:
+            - internalnet
 
     mongo:
         container_name: mongo
@@ -43,6 +49,11 @@ services:
         volumes:
             - mongoDB:/data/db
         restart: unless-stopped
-
+        networks:
+            - internalnet
 volumes:
     mongoDB: # Making the volume accessible by other containers
+
+networks:
+    internalnet:
+        driver: bridge
