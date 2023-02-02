@@ -13,18 +13,18 @@ services:
         environment:
             - WATCHPACK_POLLING=true
         depends_on:
-            - api
+            - server
 
-    api:
-        container_name: api
+    server:
+        container_name: server
         build:
-            context: .
-            dockerfile: Dockerfile
+            context: ./server
+            dockerfile: server.Dockerfile
         ports:
             - 8000:8000
         volumes:
-            - .:/app
-            - /app/node_modules
+            - .:/server
+            - /server/node_modules
         environment:
             - PORT=8000
             - MONGO_INITDB_ROOT_USERNAME=nees

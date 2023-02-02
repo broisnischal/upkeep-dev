@@ -1,10 +1,6 @@
 const app = require('express')();
 const mongoose = require('mongoose');
 
-const PORT = process.env.PORT || 8000;
-// Gets the Username and Password
-const MONGO_URI = `mongodb://${process.env.MONGO_INITDB_ROOT_USERNAME}:${process.env.MONGO_INITDB_ROOT_PASSWORD}@mongo:27017`;
-
 mongoose.set('strictQuery', true);
 const connectDB = async () => {
     await mongoose
