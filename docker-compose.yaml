@@ -32,8 +32,8 @@ services:
         ports:
             - '8000:8000'
         volumes:
-            - ./api:/api
-            - /api/node_modules
+            - ./api:/app
+            - /app/node_modules
         environment:
             - PORT=8000
             - MONGO_INITDB_ROOT_USERNAME=nees
