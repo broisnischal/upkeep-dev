@@ -36,7 +36,7 @@ mongoose
         server.listen(port);
         server.on('error', onError);
         server.on('listening', onListening);
-        console.log('MongoDB connected !!');
+        console.log('Server listening and MongoDB connected !!');
     })
     .catch((err) => {
         console.log(err);

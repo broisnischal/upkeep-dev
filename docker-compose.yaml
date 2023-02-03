@@ -1,0 +1,45 @@
+version: '3.8'
+services:
+    mongo:
+        image: mongo
+        container_name: mongo
+        volumes:
+            - data:/data/db
+        restart: unless-stopped
+        environment:
+            - MONGO_INITDB_ROOT_USERNAME=nees
+            - MONGO_INITDB_ROOT_PASSWORD=nees
+
+    frontend:
+        container_name: frontend
+        image: frontend:v1
+        build: ./client
+        ports:
+            - '3000:3000'
+        volumes:
+            - ./client/src:/app/src
+        environment:
+            - WATCHPACK_POLLING=true
+        depends_on:
+            - api
+        stdin_open: true
+        tty: true
+
+    api:
+        container_name: api
+        image: api:v1
+        build: ./api
+        ports:
+            - '8000:8000'
+        volumes:
+            - ./api:/api
+            - /api/node_modules
+        environment:
+            - PORT=8000
+            - MONGO_INITDB_ROOT_USERNAME=nees
+            - MONGO_INITDB_ROOT_PASSWORD=nees
+        depends_on:
+            - mongo
+
+volumes:
+    data:
