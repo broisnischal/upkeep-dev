@@ -6,6 +6,7 @@ import 'dotenv/config';
 import * as url from 'url';
 import indexRouter from './src/v1/routes/index.js';
 import usersRouter from './src/v1/routes/users.js';
+import authRouter from './src/v1/routes/auth.routes.js';
 
 const app = express();
 export const __filename = url.fileURLToPath(import.meta.url);
@@ -17,7 +18,10 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(express.static(path.join(__dirname, './src/v1/public')));
 
+// Routes configurations
+
 app.use('/', indexRouter);
-app.use('/users', usersRouter);
+app.use('/api/v1/user', usersRouter);
+app.use('/api/v1/auth', authRouter);
 
 export default app;
