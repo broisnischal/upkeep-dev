@@ -2,14 +2,16 @@ import mongoose from 'mongoose';
 
 const OrderSchema = new mongoose.Schema(
     {
-        orderId: String,
-        customerId: String,
+        userId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
+            required: true,
+        },
         amount: Number,
         status: {
             type: Number,
             default: 0, // 0 - pending, 1 - approved, 3 - delivered
         },
-        txnId: String,
         items: [
             {
                 service: {
