@@ -80,16 +80,35 @@ export const authActivate = async (req, res, next) => {
                 .send({ success: false, msg: 'Invalid request !' });
 
         const data = verifyToken(token, process.env.AUTH_SECRET);
+        console.log(data);
+        if (await User.findOne({ $or: [{ username, email }] }))
+            return res
+                .status(403)
+                .json({
+                    msg: 'Email or Username is already taken ! Try using another.',
+                });
 
         if (data && token) {
-            await User.create({
-                email: data.email,
-                username: data.username,
-                password: data.password,
-            });
+            if (
+                await User.create({
+                    email: data.email,
+                    username: data.username,
+                    password: data.password,
+                })
+            ) {
+                return res
+                    .status(200)
+                    .send({ msg: 'User activated, Please Login', data });
+            } else {
+                return res
+                    .status(500)
+                    .send({ msg: 'Failed to activate user!' });
+            }
+        } else {
+            return res
+                .status(500)
+                .json({ msg: 'Invalid empty or token expired !' });
         }
-
-        return res.status(200).send({ msg: 'user activated', data });
     } catch (err) {
         process.env.ENV == 'development' ? console.log(err) : null;
         return res.status(500).json({ msg: 'Invalid or token expired !' });

@@ -1,10 +1,18 @@
 import React from 'react';
 import { Routes, Route, Link } from 'react-router-dom';
+import Notfound from './components/common/notfound.jsx';
+import Activate from './pages/auth/activate.jsx';
+import Login from './pages/auth/login.jsx';
 
 const App = () => {
     return (
         <>
             <Routes>
+                <Route path="auth">
+                    <Route index element={<Login />} />
+                    <Route path="activate" element={<Activate />} />
+                    <Route path="activate/:token" element={<Activate />} />
+                </Route>
                 <Route
                     path="/"
                     element={
@@ -22,6 +30,7 @@ const App = () => {
                         </div>
                     }
                 ></Route>
+                <Route path="*" element={<Notfound />} />
             </Routes>
         </>
     );
