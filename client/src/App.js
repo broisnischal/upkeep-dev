@@ -11,7 +11,10 @@ const App = () => {
                 <Route path="auth">
                     <Route index element={<Login />} />
                     <Route path="activate" element={<Activate />} />
-                    <Route path="activate/:token" element={<Activate />} />
+                    <Route
+                        path="activate/:activateToken"
+                        element={<Activate />}
+                    />
                 </Route>
                 <Route
                     path="/"

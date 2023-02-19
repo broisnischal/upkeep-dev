@@ -4,12 +4,13 @@ import axios from 'axios';
 import { API } from '../../store.js';
 
 const Activate = () => {
-    const { token } = useParams();
+    const { activateToken: token } = useParams();
     const navigate = useNavigate();
     const [loading, setLoading] = useState(false);
     const [alert, setAlert] = useState('');
 
     useEffect(() => {
+        console.log(token);
         if (!token) {
             return navigate('/');
             // window.location.replace('/');
@@ -17,9 +18,7 @@ const Activate = () => {
         const activate = async () => {
             setLoading(true);
             try {
-                const req = await axios.post(
-                    `http://192.168.1.132:8000/api/v1/auth/${token}`,
-                );
+                const req = await axios.post(`${API}/auth/activate/${token}`);
                 console.log(req.data);
                 setAlert('User activated Please login');
             } catch (error) {

@@ -21,3 +21,15 @@ export const verifyToken = (token, secret) => {
         return false;
     }
 };
+
+export const limitAndSkip = (query) => {
+    let { page, size } = query;
+
+    if (!page) page = 1;
+    if (!size) size = 20;
+
+    const limit = parseInt(size);
+    const skip = (page - 1) * size;
+
+    return [limit, skip];
+};

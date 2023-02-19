@@ -17,6 +17,10 @@ const userSchema = new mongoose.Schema(
             lowercase: true,
             trim: true,
         },
+        role: {
+            type: Number,
+            default: 0, // 0 - simple user, 1 - vendor , 2 - admin
+        },
         password: {
             type: String,
             required: true,
