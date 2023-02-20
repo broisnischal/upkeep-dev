@@ -3,6 +3,7 @@ import { createError } from '../config/createError.js';
 import Category from '../models/category.model.js';
 import VendorRequest from '../models/request.model.js';
 import User from '../models/user.model.js';
+import { limitAndSkip } from '../utils/utils.js';
 
 export const createCategory = asyncHandler(async (req, res, next) => {
     const { name, icon, color } = req.body;
@@ -26,11 +27,16 @@ export const getCategories = asyncHandler(async (req, res, next) => {
 });
 
 export const getPendingVendors = asyncHandler(async (req, res, next) => {
+    const [limit, skip] = limitAndSkip(req.query);
     return res.status(200).send(
-        await VendorRequest.find().limit(10).populate({
-            path: 'user',
-            select: '+role',
-        }),
+        await VendorRequest.find().limit(10).populate(
+            {
+                path: 'user',
+                select: '+role',
+            },
+            { limit },
+            { skip },
+        ),
     );
 });
 
