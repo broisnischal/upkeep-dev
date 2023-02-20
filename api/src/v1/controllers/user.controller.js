@@ -1,3 +1,5 @@
+import { createError } from '../config/createError.js';
+import Request from '../models/request.model.js';
 import User from '../models/user.model.js';
 import { limitAndSkip } from '../utils/utils.js';
 
@@ -21,6 +23,24 @@ export const getAllUsers = async (req, res, next) => {
 export const updateUser = async (req, res, next) => {
     try {
     } catch (error) {
+        next(error);
+    }
+};
+
+export const requestVendor = async (req, res, next) => {
+    try {
+        const alreadyInPending = await Request.findOne({ user: req.user });
+
+        if (alreadyInPending)
+            return next(createError('Pending Approval!', 400));
+        if (req.role == 1 || req.role == 2)
+            return next(createError('You already a vendor! ', 400));
+        await new Request({
+            user: req.user,
+        }).save();
+        return res.status(200).send({ msg: 'Request in Pending!' });
+    } catch (error) {
+        console.log(error);
         next(error);
     }
 };

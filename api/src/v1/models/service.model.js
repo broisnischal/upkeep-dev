@@ -1,10 +1,15 @@
 import mongoose from 'mongoose';
 
 const serviceSchema = new mongoose.Schema({
-    vendor: {
+    user: {
         type: mongoose.Schema.Types.ObjectId,
-        required: [true, 'Vendor Required'],
-        ref: 'Vendor',
+        required: [true, 'user Required'],
+        ref: 'User',
+    },
+    category: {
+        type: mongoose.Schema.Types.ObjectId,
+        required: [true, 'Category Required'],
+        ref: 'Category',
     },
     title: {
         type: String,
@@ -17,7 +22,11 @@ const serviceSchema = new mongoose.Schema({
             ref: 'Comment',
         },
     ],
-    views: Number,
+    users: [mongoose.Schema.Types.ObjectId],
+    views: {
+        type: Number,
+        default: 0,
+    },
 });
 
 const Service = mongoose.model('Service', serviceSchema);

@@ -2,7 +2,7 @@ import { createError } from '../config/createError.js';
 import jwt from 'jsonwebtoken';
 import User from '../models/user.model.js';
 
-export const verifyLoginAndRoles = async (req, res, next) => {
+export const useLogin = async (req, res, next) => {
     try {
         const { accesstoken: token } =
             req.cookies ??
@@ -31,12 +31,16 @@ export const verifyVendor = async (req, res, next) => {
     try {
         const role = req.role;
         if (!role) return next(createError('Vendor access denied !', 403));
+        if (role == 0) return next(createError('Vendor access denied!', 400));
+        if (role == 2)
+            return next(
+                createError('Admin cannot access vendor permission!', 400),
+            );
 
         if (role == 1) {
-            next();
-        } else {
-            next(createError('Vendor access denied !', 403));
+            return next();
         }
+        return next(createError('Vendor access denied !', 403));
     } catch (error) {
         next(error);
     }

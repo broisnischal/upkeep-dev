@@ -8,6 +8,8 @@ import indexRouter from './src/v1/routes/index.js';
 import usersRouter from './src/v1/routes/users.routes.js';
 import authRouter from './src/v1/routes/auth.routes.js';
 import cors from 'cors';
+import serviceRouter from './src/v1/routes/service.routes.js';
+import adminRouter from './src/v1/routes/admin.routes.js';
 
 const app = express();
 export const __filename = url.fileURLToPath(import.meta.url);
@@ -25,6 +27,8 @@ app.use(express.static(path.join(__dirname, './src/v1/public')));
 app.use('/', indexRouter);
 app.use('/api/v1/user', usersRouter);
 app.use('/api/v1/auth', authRouter);
+app.use('/api/v1/service', serviceRouter);
+app.use('/api/v1/admin', adminRouter);
 
 // Handling error in routes
 

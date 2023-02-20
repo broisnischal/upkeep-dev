@@ -11,6 +11,7 @@ import User from '../models/user.model.js';
 import { createError } from '../config/createError.js';
 import bcrypt from 'bcryptjs';
 import { sendMail } from '../utils/sendMail.js';
+import asyncHandler from 'express-async-handler';
 
 // config of sendgrid to send mail
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
@@ -113,7 +114,7 @@ export const authActivate = async (req, res, next) => {
     }
 };
 
-export const authLogin = async (req, res, next) => {
+export const verifyLogin = async (req, res, next) => {
     try {
         const { emailorusername, password } = req.body;
 
@@ -127,12 +128,10 @@ export const authLogin = async (req, res, next) => {
 
         const user = await User.findOne({
             $or: [{ email: emailorusername }, { username: emailorusername }],
-        });
+        }).select('+password');
 
         if (!user)
-            return next(
-                createError("User doesn't exists, Please register !", 403),
-            );
+            return next(createError("User doesn't exists, Please f !", 403));
 
         if (user && (await bcrypt.compare(password, user.password))) {
             let token = jwt.sign({ id: user._id }, process.env.SECRETTOKEN);
@@ -161,3 +160,16 @@ export const logout = async (req, res, next) => {
         next(error);
     }
 };
+
+export const checkLogin = asyncHandler(async (req, res, next) => {
+    console.log(req.user);
+
+    if (req.user) {
+        const user = await User.findById(req.user);
+        return res
+            .status(200)
+            .send({ user, status: true, msg: 'User is logged' });
+    }
+
+    return next(createError('User not logged in !', 400));
+});

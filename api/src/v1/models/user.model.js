@@ -20,10 +20,28 @@ const userSchema = new mongoose.Schema(
         role: {
             type: Number,
             default: 0, // 0 - simple user, 1 - vendor , 2 - admin
+            select: false,
         },
         password: {
             type: String,
             required: true,
+            select: false,
+        },
+        vendorAccess: {
+            type: Boolean,
+            default: false,
+        },
+        phone: String,
+        business_address: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Address',
+        },
+        business_name: {
+            type: String,
+            // required: true,
+            unique: true,
+            lowercase: true,
+            trim: true,
         },
     },
     {
