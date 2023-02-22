@@ -1,4 +1,4 @@
-import jwt from 'jsonwebtoken';
+import jwt from "jsonwebtoken"
 
 /**
  * Generates token
@@ -6,30 +6,30 @@ import jwt from 'jsonwebtoken';
  * @param {object} payload - Payload of the data.
  * @param {string} time - Time to expire.
  */
-export const generateToken = (payload, time = '1hr') => {
-    return jwt.sign(payload, process.env.AUTH_SECRET, {
-        expiresIn: process.env.EXPIRES || time || '1d',
-    });
-};
+export const generateToken = (payload, time = "1hr") => {
+	return jwt.sign(payload, process.env.AUTH_SECRET, {
+		expiresIn: process.env.EXPIRES || time || "1d",
+	})
+}
 
 export const verifyToken = (token, secret) => {
-    try {
-        const payload = jwt.verify(token, secret);
-        return payload;
-    } catch (err) {
-        process.env.ENV == 'development' ? console.log(err) : null;
-        return false;
-    }
-};
+	try {
+		const payload = jwt.verify(token, secret)
+		return payload
+	} catch (err) {
+		process.env.ENV == "development" ? console.log(err) : null
+		return false
+	}
+}
 
 export const limitAndSkip = (query) => {
-    let { page, size } = query;
+	let { page, size } = query
 
-    if (!page) page = 1;
-    if (!size) size = 20;
+	if (!page) page = 1
+	if (!size) size = 20
 
-    const limit = parseInt(size);
-    const skip = (page - 1) * size;
+	const limit = parseInt(size)
+	const skip = (page - 1) * size
 
-    return [limit, skip];
-};
+	return [limit, skip]
+}
