@@ -25,9 +25,9 @@ const OrderSchema = new mongoose.Schema(
 	},
 	{
 		toJSON: {
-			transform(doc, ret) {
-				delete ret.__v
-			},
+			// transform(doc, ret) {
+			// 	delete ret.__v
+			// },
 		},
 		timestamps: true,
 	},
