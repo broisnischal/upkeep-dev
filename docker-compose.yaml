@@ -12,9 +12,9 @@ services:
             - MONGO_INITDB_ROOT_USERNAME=nees
             - MONGO_INITDB_ROOT_PASSWORD=nees
 
-    frontend:
-        container_name: frontend
-        image: frontend:v1
+    client:
+        container_name: client
+        image: client:v1
         build: ./client
         ports:
             - '3000:3000'
