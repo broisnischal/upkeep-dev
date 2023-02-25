@@ -34,6 +34,11 @@ const serviceSchema = new mongoose.Schema({
     itemInStock: {
         type: Number,
     },
+    status: {
+        type: String,
+        enum: ['pending', 'inprogess', 'completed', 'rejected', 'archived'],
+        default: 'pending',
+    },
 });
 
 const Service = mongoose.model('Service', serviceSchema);

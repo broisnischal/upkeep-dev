@@ -1,22 +1,18 @@
+# Customer
 
-           Customer
-
--Login and register (form and google)
--Customer Profile (update profile)
--Search services
--View Services
--Cart Services
--Recieve Order Confirmation mail
--Get Service Delivery from Vendor
--Advance Booking Charge ( Which will be minused in the actual service payment )
-
+-   Login and register (form and google)
+-   Customer Profile (update profile)
+    -   Search services
+    -   View Services
+        -   Cart Services
+            -   Recieve Order Confirmation mail
+            -   Get Service Delivery from Vendor
+            -   Advance Booking Charge ( Which will be minused in the actual service payment )
 
 -Inform Admin about Delivery of Services from vendor (Notification)
 -Pay Delivery Service Charge to the Vendor
 -Chat with vendor
 -Chat with Admin
-
-
 
              Vendor
 
@@ -30,36 +26,28 @@
 -pay comission to the logic
 -Terms and conditions
 
-
-
          Commission Logic (paper work)
 
--The Vendor registered to the sytem  should pay 15% comission to the admin.
+-The Vendor registered to the sytem should pay 15% comission to the admin.
 
 user type - admin/moderator/account
-
 
 user khalti - 100 (booking amount)
 service complete - trigger - payment 85% - vendor /email
 
-
 -To regulate this among the vendor, agreement paper will be signed. (during registration - terms and condition)
 
--If the customer doesnot pay the comission  fine + account disabling + legal action may be taken. ----->
+-If the customer doesnot pay the comission fine + account disabling + legal action may be taken. ----->
 
           Admin
 
-
 -Separate Login(
--Admin profile (update profile)    
+-Admin profile (update profile)
 -Manage roles of users
--Verify and approve Vendor 
--Verify Services of Vendor 
+-Verify and approve Vendor
+-Verify Services of Vendor
 -AdminDashboard
 (To see the activities of the system like Customer list, vendor list, chat box with customer)
-
-
-
 
         Add Services
 
@@ -68,8 +56,6 @@ image ( service ko image)
 category(dropdown - electrician, development, plumber, tutition, etc)
 descriptions (service ko description)
 
-
-
 pages ma ( landing page, vendor page, about us contact page)
 login
 registration
@@ -77,9 +63,3 @@ user dashboard
 admin dashboard
 vendor dashboard
 services page
-
-
-
-
-
-

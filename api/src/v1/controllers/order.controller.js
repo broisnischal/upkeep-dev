@@ -10,6 +10,7 @@ export const orderService = asyncHandler(async (req, res, next) => {
         const { ids } = req.body;
 
         if (!ids) return next(createError('Invalid Request!', 400));
+
         Array.from(ids).every((item) => {
             if (!validObject(item))
                 return res.status(400).send({ msg: 'Invalid request in id!' });

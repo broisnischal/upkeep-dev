@@ -13,6 +13,10 @@ const cartSchema = new mongoose.Schema(
                     type: mongoose.Schema.Types.ObjectId,
                     ref: 'Service',
                 },
+                checked: {
+                    type: Boolean,
+                    default: true,
+                },
             },
         ],
         cartQuantity: {

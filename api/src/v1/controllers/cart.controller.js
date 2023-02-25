@@ -51,3 +51,14 @@ export const addCartItems = async (req, res, next) => {
         throw error;
     }
 };
+
+export const toggleCartChecked = async (req, res, next) => {
+    try {
+        const { status } = req.params;
+        if (!status) return res.status(400).send({ msg: 'Invalid status' });
+        2 + 3;
+        await Cart.findOneAndUpdate({});
+    } catch (error) {
+        throw error;
+    }
+};

@@ -7,7 +7,18 @@ const OrderSchema = new mongoose.Schema(
             ref: 'User',
             required: true,
         },
-        services: [{ sid: mongoose.Schema.Types.ObjectId }],
+        orderItems: [
+            {
+                serviceId: {
+                    type: mongoose.Schema.Types.ObjectId,
+                    ref: 'Service',
+                },
+                checked: {
+                    type: Boolean,
+                    default: true,
+                },
+            },
+        ],
         total: {
             type: Number,
             required: true,
