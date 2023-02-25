@@ -7,14 +7,9 @@ import Cart from '../models/cart.model.js';
 
 export const orderService = asyncHandler(async (req, res, next) => {
     try {
-        const { ids } = req.body;
+        const toOrderServices = await Cart.findOne({ userId: req.user });
 
-        if (!ids) return next(createError('Invalid Request!', 400));
-
-        Array.from(ids).every((item) => {
-            if (!validObject(item))
-                return res.status(400).send({ msg: 'Invalid request in id!' });
-        });
+        return console.log(toOrderServices);
 
         const orderAlreadyPlaced = await Order.findOne({ userId: req.user });
 
