@@ -11,6 +11,7 @@ import cors from 'cors';
 import serviceRouter from './src/v1/routes/service.routes.js';
 import adminRouter from './src/v1/routes/admin.routes.js';
 import orderRouter from './src/v1/routes/order.routes.js';
+import cartRouter from './src/v1/routes/cart.routes.js';
 
 const app = express();
 export const __filename = url.fileURLToPath(import.meta.url);
@@ -31,6 +32,7 @@ app.use('/api/v1/auth', authRouter);
 app.use('/api/v1/service', serviceRouter);
 app.use('/api/v1/admin', adminRouter);
 app.use('/api/v1/order', orderRouter);
+app.use('/api/v1/cart', cartRouter);
 
 // Handling error in routes
 

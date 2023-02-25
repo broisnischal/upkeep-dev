@@ -31,6 +31,9 @@ const serviceSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
+    itemInStock: {
+        type: Number,
+    },
 });
 
 const Service = mongoose.model('Service', serviceSchema);

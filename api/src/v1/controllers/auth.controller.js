@@ -1,6 +1,7 @@
 import sgMail from '@sendgrid/mail';
 import sanitize from 'mongo-sanitize';
 import jwt from 'jsonwebtoken';
+import crypto from 'node:crypto';
 import { generateToken, verifyToken } from '../utils/utils.js';
 import {
     validateUsername,
@@ -12,6 +13,7 @@ import { createError } from '../config/createError.js';
 import bcrypt from 'bcryptjs';
 import { sendMail } from '../utils/sendMail.js';
 import asyncHandler from 'express-async-handler';
+import Token from '../models/token.model.js';
 
 // config of sendgrid to send mail
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
@@ -148,10 +150,6 @@ export const verifyLogin = async (req, res, next) => {
     }
 };
 
-export const getAccessToken = async (req, res, next) => {};
-
-export const generateRefreshToken = async (req, res, next) => {};
-
 export const logout = async (req, res, next) => {
     try {
         res.clearCookie('accesstoken');
@@ -173,3 +171,107 @@ export const checkLogin = asyncHandler(async (req, res, next) => {
 
     return next(createError('User not logged in !', 400));
 });
+
+export const forgotPassword = asyncHandler(async (req, res, next) => {
+    try {
+        const { email } = req.body;
+
+        if (!email) return res.status(400).send({ msg: 'Invalid request!' });
+
+        const userExist = await User.findOne({ email });
+
+        if (!userExist) return res.status(404).send({ msg: 'User not found!' });
+
+        // delete token if user exists
+        const token = await Token.findOne({ userId: userExist._id });
+        if (token) await Token.deleteOne();
+
+        const resetToken =
+            crypto.randomBytes(32).toString('hex') + userExist._id;
+
+        const hashedToken = crypto
+            .createHash('sha256')
+            .update(resetToken)
+            .digest('hex');
+
+        const userToken = new Token({
+            userId: userExist._id,
+            token: hashedToken,
+            createdAt: Date.now(),
+            expiresAt: Date.now() + 1000 * 30 * 60,
+        });
+
+        await userToken.save();
+
+        // sendMail(email, link)
+        //     .then((data) => {
+        //         console.log(data);
+        //         return res.json({
+        //             msg: 'Please check your mail for activation link...',
+        //             resetToken,
+        //         });
+        //     })
+        //     .catch((err) => {
+        //         console.log(err);
+        //         return res.status(408).json({
+        //             msg: `Failed to send mail, Please try again later!`,
+        //             resetToken,
+        //         });
+        //     });
+
+        return res.send({ userToken, resetToken });
+    } catch (error) {
+        next(error);
+    }
+});
+
+export const resetPassword = asyncHandler(async (req, res, next) => {
+    try {
+        const { password } = req.body;
+
+        const resetToken = req.body?.resetToken || req.params?.resetToken;
+
+        if (!resetToken)
+            return res.status(400).send({ msg: 'Invalid Request !' });
+
+        const hashedToken = crypto
+            .createHash('sha256')
+            .update(resetToken)
+            .digest('hex');
+
+        const userToken = await Token.findOne({
+            token: hashedToken,
+            expiresAt: { $gt: Date.now() },
+        });
+
+        if (!userToken)
+            return res.status(404).send({ msg: 'Invalid or expired token!' });
+        if (!validatePassword(password))
+            return res.status(400).send({
+                msg: 'Password should contain one uppercase, symbol, number and atleast 8 characters',
+            });
+
+        const { userId } = userToken;
+
+        const hashedPassword = await bcrypt.hash(password, 12);
+        const user = await User.findByIdAndUpdate(
+            userId,
+            {
+                password: hashedPassword,
+            },
+            {
+                new: true,
+                runValidators: true,
+            },
+        );
+        if (user) userToken.deleteOne();
+
+        return res.send({ msg: 'Password successfully reset!' });
+    } catch (error) {
+        next(error);
+    }
+});
+
+export const getAccessToken = async (req, res, next) => {};
+
+export const generateRefreshToken = async (req, res, next) => {};
