@@ -24,16 +24,6 @@ const cartSchema = new mongoose.Schema(
             min: [0, 'Invalid Value!'],
             default: 1,
         },
-        // serviceQuantity: [
-        //     {
-        //         id: [mongoose.Schema.Types.ObjectId],
-        //         quantity: {
-        //             type: Number,
-        //             default: 0,
-        //         },
-        //         select: false,
-        //     },
-        // ],
         totalPrice: Number,
     },
     {

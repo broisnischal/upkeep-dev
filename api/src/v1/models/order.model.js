@@ -27,10 +27,10 @@ const OrderSchema = new mongoose.Schema(
         status: {
             type: String,
             enum: {
-                values: ['PENDING', 'RESOLVED'],
+                values: ['pending', 'inprogess', 'completed'],
                 message: 'Value error, Invalid Request !',
             },
-            default: 'PENDING',
+            default: 'pending',
         },
     },
     {
