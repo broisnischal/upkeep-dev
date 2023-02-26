@@ -32,7 +32,7 @@ mongoose.set('strictQuery', true);
 
 process.env.MONGOURI
     ? mongoose
-          .connect(process.env.MONGOUR)
+          .connect(process.env.MONGOURI)
           .then(() => {
               server.listen(port);
               server.on('error', onError);
@@ -46,7 +46,7 @@ process.env.MONGOURI
               process.exit(0);
           })
     : mongoose
-          .connect(MONGO_UI)
+          .connect(MONGO_URI)
           .then(() => {
               server.listen(port);
               server.on('error', onError);
