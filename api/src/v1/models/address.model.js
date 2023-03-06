@@ -6,6 +6,7 @@ const addressSchema = new mongoose.Schema({
 	city: String,
 	country: String,
 	location: String,
+    phone: String
 })
 
 const Address = mongoose.model("Address", addressSchema)
