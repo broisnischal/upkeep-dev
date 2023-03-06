@@ -1,0 +1,28 @@
+#signup {
+    min-height: 50vh;
+    background: #eee;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    .input {
+        width: 100px;
+        margin-top: 10px;
+        width: min(600px, 90%);
+        .input-container {
+            width: 100%;
+            input {
+                font-size: 16px;
+                letter-spacing: 1px;
+                margin: auto;
+                width: min(1000px, 90%);
+                padding: 10px;
+                margin-top: 5px;
+                background: transparent;
+                outline: none;
+                border: none;
+                border: 1px solid #333;
+            }
+        }
+    }
+}
