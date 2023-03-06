@@ -1,4 +1,5 @@
 #signup {
+    padding: 10rem 0;
     min-height: 50vh;
     background: #eee;
     display: flex;
@@ -6,16 +7,45 @@
     align-items: center;
     justify-content: center;
     .input {
-        width: 100px;
-        margin-top: 10px;
         width: min(600px, 90%);
+        margin-top: 10px;
+
+        &.links {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            .custom {
+                font-size: 16px;
+                text-decoration: underline;
+            }
+            .agree {
+                font-size: 15px;
+                input {
+                    cursor: pointer;
+                    margin: 0 10px;
+                }
+                cursor: default;
+            }
+        }
+
         .input-container {
-            width: 100%;
+            &.password {
+                position: relative;
+                // background: red;
+                button {
+                    position: absolute;
+                    top: 40px;
+                    left: 95%;
+                    font-size: 20px;
+                    cursor: pointer;
+                }
+            }
+
             input {
                 font-size: 16px;
                 letter-spacing: 1px;
                 margin: auto;
-                width: min(1000px, 90%);
+                width: 100%;
                 padding: 10px;
                 margin-top: 5px;
                 background: transparent;
@@ -25,4 +55,28 @@
             }
         }
     }
+}
+
+.auth-main-button {
+    width: 100%;
+    font-size: 19px;
+    text-transform: uppercase;
+    padding: 10px;
+    background-color: black;
+    border: none;
+    outline: none;
+    color: white;
+    cursor: pointer;
+    border: 1px solid #333;
+    &:hover {
+        background: transparent;
+        color: black;
+        border: 1px solid #333;
+    }
+}
+
+.show {
+    border: none;
+    outline: none;
+    font-size: 'Montserrat';
 }
