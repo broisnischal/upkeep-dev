@@ -1,15 +1,20 @@
 import './navbar.scss';
 import React from 'react';
 import { Link } from 'react-router-dom';
+import { CONF } from '../../../assets';
 
 const Navbar = () => {
     return (
         <nav>
             <div className="left">
                 <div className="logo">
-                    <p>UpKeep</p>
+                    <img
+                        style={{ width: '20%' }}
+                        src={CONF.logoLight}
+                        alt="Upkeep"
+                    />
                 </div>
-                <button>Become a Vendor?</button>
+                {/* <button>Become a Vendor?</button> */}
             </div>
 
             <div className="right">
@@ -27,7 +32,7 @@ const Navbar = () => {
                     <Link className="link" to="/auth/login">
                         Login
                     </Link>
-                    <Link className="link" to="/auth/signup">
+                    <Link className="link signup" to="/auth/signup">
                         Sign Up
                     </Link>
                 </ul>
