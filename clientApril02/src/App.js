@@ -16,6 +16,7 @@ import TotalCustomer from './components/Admin/pages/TotalCustomer';
 import Approvals from './components/Admin/pages/TotalCustomer';
 import Chat from './components/Admin/pages/Approvals';
 import AdminLogin from './components/Admin/pages/AdminLogin';
+import CheckoutForm from './components/CheckoutForm.jsx';
 
 
 const App = () => {
@@ -31,6 +32,7 @@ const App = () => {
                 <Route path="/about" element={<About />} />
                 <Route path="/singleservice" element={<SingleService />} />
                 <Route path="/order-confirm" element={<OrderConfirm />} />
+                <Route path="/checkout" element={<CheckoutForm />} />
                 <Route path="admin-login" element={<AdminLogin />} />
                 <Route path="/admin-dashboard" element={<Layout />}>
                     <Route index element={<Dashboard />} />
