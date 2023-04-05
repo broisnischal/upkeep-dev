@@ -22,7 +22,7 @@ export const Team = () => {
                         />
                         <div>
                             <h3 class="text-base font-semibold leading-7 tracking-tight text-gray-900">
-                                Sudip Kumar Mahato
+                                Sudip Kumar Mahato X Komal Tamang
                             </h3>
                             <p class="text-md font-semibold leading-6 text-green-600">
                                 Founder | Backend Developer

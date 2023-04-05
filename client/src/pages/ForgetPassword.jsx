@@ -12,7 +12,7 @@ const ForgetPassword = () => {
     return (
         <div className="flex flex-col items-center justify-center min-h-screen">
             <div className="w-full max-w-md">
-                <h2 className="text-2xl font-bold mb-4 text-white">
+                <h2 className="text-4xl font-bold mb-4 text-green-500">
                     Forget Password
                 </h2>
                 <form onSubmit={handleSubmit}>
@@ -24,9 +24,10 @@ const ForgetPassword = () => {
                             Enter Email Address
                         </label>
                         <input
-                            className="w-full border-gray-300 p-2 rounded-md"
+                            className="w-full border-gray-300 p-3 rounded-lg outline-none"
                             type="email"
                             id="email"
+                            placeholder='Enter registered email'
                             name="email"
                             value={email}
                             onChange={(event) => setEmail(event.target.value)}
@@ -34,7 +35,7 @@ const ForgetPassword = () => {
                         />
                     </div>
                     <div className="flex justify-center">
-                        <button className="bg-green-500 text-white font-bold py-2 px-4 rounded-md hover:bg-blue-700 focus:outline-none focus:shadow-outline">
+                        <button className="bg-green-500 text-white font-bold py-2 px-4 rounded-md hover:bg-red-700 focus:outline-none focus:shadow-outline">
                             Send Link
                         </button>
                     </div>

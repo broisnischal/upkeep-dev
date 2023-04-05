@@ -1,86 +1,161 @@
-import React, { useState } from 'react';
+import Navbar from './Navbar.jsx';
+import Footer from './Footer';
 
 const CheckoutForm = () => {
-    const [customerName, setCustomerName] = useState('');
-    const [customerAddress, setCustomerAddress] = useState('');
-    const [customerTime, setCustomerTime] = useState('');
-
-    const handleAddressSelect = (address) => {
-        setCustomerAddress(address);
-    };
-
-    const handleSubmit = (e) => {
-        e.preventDefault();
-        // send form data to server or do validation
-    };
-
     return (
         <>
-            <div className="flex flex-col items-center justify-center min-h-screen ">
-                <div className="w-full max-w-md">
-                    <h2 className="text-2xl font-bold mb-4">
-                        Customer Checkout Form
-                    </h2>
-                    <form onSubmit={handleSubmit} className="space-y-4">
+            <Navbar />
+            <div className="isolate bg-white text-black  px-6 sm:py-32 lg:px-8">
+                <div className="mx-auto max-w-2xl text-center">
+                    {/* <p className="mt-2 text-lg leading-8 text-black">
+                        Checkout
+                    </p> */}
+                </div>
+                <form
+                    action="#"
+                    method="POST"
+                    className="mx-auto mt-16 max-w-xl sm:mt-20"
+                >
+                    <div className="grid grid-cols-1 gap-y-6 gap-x-8 sm:grid-cols-2">
                         <div>
                             <label
-                                htmlFor="customer-name"
-                                className="font-medium"
+                                htmlFor="first-name"
+                                className="block text-sm font-semibold leading-6 text-gray-900"
                             >
-                                Name
+                                First name
                             </label>
-                            <input
-                                type="text"
-                                id="customer-name"
-                                value={customerName}
-                                onChange={(e) =>
-                                    setCustomerName(e.target.value)
-                                }
-                                className="form-input block w-full mt-1"
-                                required
-                            />
+                            <div className="mt-2.5">
+                                <input
+                                    type="text"
+                                    name="first-name"
+                                    id="first-name"
+                                    placeholder="Enter First Name"
+                                    autoComplete="given-name"
+                                    className="block w-full rounded-md border-0 py-2 px-3.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300  sm:text-sm sm:leading-6"
+                                />
+                            </div>
                         </div>
                         <div>
                             <label
-                                htmlFor="customer-address"
-                                className="font-medium"
+                                htmlFor="last-name"
+                                className="block text-sm font-semibold leading-6 text-gray-900"
+                            >
+                                Last name
+                            </label>
+                            <div className="mt-2.5">
+                                <input
+                                    type="text"
+                                    name="last-name"
+                                    id="last-name"
+                                    placeholder="Enter Last Name"
+                                    autoComplete="family-name"
+                                    className="block w-full rounded-md border-0 py-2 px-3.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 sm:text-sm sm:leading-6"
+                                />
+                            </div>
+                        </div>
+
+                        <div className="sm:col-span-2">
+                            <label
+                                htmlFor="email"
+                                className="block text-sm font-semibold leading-6 text-gray-900"
+                            >
+                                Email
+                            </label>
+                            <div className="mt-2.5">
+                                <input
+                                    type="email"
+                                    name="email"
+                                    id="email"
+                                    placeholder="Enter Email"
+                                    autoComplete="email"
+                                    className="block w-full rounded-md border-0 py-2 px-3.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 sm:text-sm sm:leading-6"
+                                />
+                            </div>
+                        </div>
+                        <div className="sm:col-span-2">
+                            <label
+                                htmlFor="topic"
+                                className="block text-sm font-semibold leading-6 text-gray-900"
                             >
                                 Address
                             </label>
-                            <Map handleAddressSelect={handleAddressSelect} />
-                            {/* Map component should go inside a div or container */}
+                            <div className="mt-2.5">
+                                <input
+                                    type="address"
+                                    name="address"
+                                    id="address"
+                                    placeholder="Enter Address"
+                                    className="block w-full rounded-md border-0 py-2 px-3.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 sm:text-sm sm:leading-6"
+                                />
+                            </div>
                         </div>
-                        <div>
+                        <div className="sm:col-span-2">
                             <label
-                                htmlFor="customer-time"
-                                className="font-medium"
+                                htmlFor="topic"
+                                className="block text-sm font-semibold leading-6 text-gray-900"
+                            >
+                                Phone Number
+                            </label>
+                            <div className="mt-2.5">
+                                <input
+                                    type="phonenumber"
+                                    name="phonenumber"
+                                    id="phonenumber"
+                                    placeholder="Enter Phone Number"
+                                    className="block w-full rounded-md border-0 py-2 px-3.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 sm:text-sm sm:leading-6"
+                                />
+                            </div>
+                        </div>
+                        <div className="sm:col-span-2">
+                            <label
+                                htmlFor="topic"
+                                className="block text-sm font-semibold leading-6 text-gray-900"
                             >
                                 Time
                             </label>
-                            <input
-                                type="datetime-local"
-                                id="customer-time"
-                                value={customerTime}
-                                onChange={(e) =>
-                                    setCustomerTime(e.target.value)
-                                }
-                                className="form-input block w-full mt-1"
-                                required
-                            />
+                            <div className="mt-2.5">
+                                <input
+                                    type="deliverytime"
+                                    name="deliverytime"
+                                    id="deliverytime"
+                                    placeholder="Enter delivery time"
+                                    className="block w-full rounded-md border-0 py-2 px-3.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 sm:text-sm sm:leading-6"
+                                />
+                            </div>
                         </div>
-                        <div>
-                            <button
-                                type="submit"
-                                className="bg-blue-500 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded"
+                    </div>
+                    <div className="sm:col-span-2 mt-2">
+                        <label
+                            htmlFor="topic"
+                            className="block text-sm font-semibold leading-6 text-gray-900"
+                        >
+                            Payment Method
+                        </label>
+                        <div className="mt-2.5">
+                            <select
+                                name="paymentmethod"
+                                id="paymentmethod"
+                                className="block w-full rounded-md border-0 py-2 px-3.5 text-gray-900 shadow-sm ring-1   ring-gray-300 sm:text-sm sm:leading-6"
                             >
-                                Place Order
-                            </button>
+                                <option value="">Select Payment Method</option>
+                                <option value="khalti">Khalti</option>
+                                <option value="cashondelivery" >Cash on Delivery</option>
+                            </select>
                         </div>
-                    </form>
-                </div>
-            </div>
+                    </div>
+
+                    <div className="mt-10">
+                        <button
+                            type="submit"
+                            className="block w-full rounded-md bg-green-600 px-3.5 py-2.5 text-center text-sm font-semibold text-white shadow-sm hover:bg-red-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-green-600"
+                        >
+                            Confirm Order
+                        </button>
+                    </div>
+                </form>
+            </div >
+            <Footer />
         </>
     );
-};
-
+}
 export default CheckoutForm;

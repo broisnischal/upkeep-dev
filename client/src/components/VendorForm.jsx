@@ -30,8 +30,7 @@ const VendorRequestForm = () => {
                             <label
                                 htmlFor="email"
                                 className="block text-gray-700 font-bold mb-2"
-                            >
-                                Vendor Full Name
+                            > Full Name
                             </label>
                             <input
                                 type="email"
@@ -45,7 +44,7 @@ const VendorRequestForm = () => {
                                 htmlFor="password"
                                 className="block text-gray-700 font-bold mb-2"
                             >
-                                Vendor Email
+                                Email
                             </label>
                             <input
                                 type="password"
@@ -59,7 +58,7 @@ const VendorRequestForm = () => {
                                 htmlFor="password"
                                 className="block text-gray-700 font-bold mb-2"
                             >
-                                Vendor Phone Number
+                                Phone Number
                             </label>
                             <input
                                 type="password"
@@ -73,7 +72,7 @@ const VendorRequestForm = () => {
                                 htmlFor="citizenship"
                                 className="block text-gray-700 font-bold mb-2"
                             >
-                                Vendor Citizenship
+                                Citizenship
                             </label>
                             <input
                                 type="file"
@@ -88,7 +87,7 @@ const VendorRequestForm = () => {
                                 htmlFor="email"
                                 className="block text-gray-700 font-bold mb-2"
                             >
-                                Vendor Name
+                                Company Name
                             </label>
                             <input
                                 type="email"
@@ -117,7 +116,7 @@ const VendorRequestForm = () => {
                                 htmlFor="password"
                                 className="block text-gray-700 font-bold mb-2"
                             >
-                                Vendor Address
+                                Address
                             </label>
                             <input
                                 type="password"
