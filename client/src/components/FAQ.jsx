@@ -1,4 +1,14 @@
 import React from 'react';
+<<<<<<< HEAD
+
+const FAQ = () => {
+    return (
+        <>
+            <div className="mt-2 ml-4 text-gray-700">
+                <p>answer</p>
+            </div>
+        </>
+=======
 import { Link } from 'react-router-dom';
 
 const FAQ = () => {
@@ -40,6 +50,7 @@ const FAQ = () => {
                 </p>
             </div>
         </section>
+>>>>>>> dev
     );
 };
 

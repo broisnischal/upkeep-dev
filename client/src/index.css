@@ -3,6 +3,11 @@
 @tailwind utilities;
 
 body {
+<<<<<<< HEAD
+    background-color: #000300;
+    font-family: 'Roboto';
+}
+=======
     /* background-color: #000300; */
     /* background-color: #22273c; */
     /* background-color: #111422; */
@@ -13,3 +18,4 @@ body {
 /* .service-image:hover {
     transform: scale(1.1);
 } */
+>>>>>>> dev
