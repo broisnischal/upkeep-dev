@@ -8,8 +8,8 @@ const Features = () => {
                     Embrace the ease of Vendor solutions
                 </h1>
                 <p className="text-xl text-center  text-white">
-                    our platform simplifies multi-vendor management for your
-                    convenience and services at people doorstep.
+                    Simplifying and improving the lives of people across our
+                    life.
                 </p>
             </div>
         </>

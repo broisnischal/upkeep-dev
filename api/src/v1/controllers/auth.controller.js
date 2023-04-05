@@ -2,7 +2,7 @@ import sgMail from '@sendgrid/mail';
 import sanitize from 'mongo-sanitize';
 import jwt from 'jsonwebtoken';
 import crypto from 'node:crypto';
-import { generateToken, verifyToken } from '../utils/utils.js';
+import { generateToken, verifyToken, returnTime } from '../utils/utils.js';
 import {
     validateUsername,
     validateEmail,
@@ -14,6 +14,7 @@ import bcrypt from 'bcryptjs';
 import { sendMail } from '../utils/sendMail.js';
 import asyncHandler from 'express-async-handler';
 import Token from '../models/token.model.js';
+import SendMail from '../utils/mail.js';
 
 // config of sendgrid to send mail
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
@@ -57,20 +58,49 @@ export const authRegister = async (req, res, next) => {
 
         const link = `${process.env.CLIENT_URI}/auth/activate/${token}`;
 
-        sendMail(email, link)
-            .then((data) => {
-                console.log(data);
-                return res.json({
-                    msg: 'Please check your mail for activation link...',
-                });
-            })
-            .catch((err) => {
-                console.log(err);
-                return res.status(408).json({
-                    msg: `Failed to send mail, Please try again later!`,
-                    link,
-                });
+        // send reset email
+        const message = `
+            <h2>Hello, ${username}</h2><br>
+            <p>Please use the URL below to activate your account.</p>
+            <p>Your reset link is valid for 30 minutes.</p>
+            <br><br>
+            <a href="${link}" clicktracking="off">${link}</a>
+            <hr>
+            <span>Regards...</span>
+            <h3>Thank you...</h3>
+        `;
+
+        let subject = 'Activate your account | neeswebservices';
+        let sendTo = email;
+        let sendFrom = process.env.NOREPLY;
+
+        const result = await SendMail(subject, message, sendTo, sendFrom);
+        if (result) {
+            return res.status(200).send({
+                msg: `Token is valid for next 30 minutes :  ${returnTime(
+                    new Date(Date.now() + 1000 * 1800),
+                )}`,
             });
+        } else {
+            return res
+                .status(500)
+                .json({ success: false, message: 'Failed to send email.' });
+        }
+
+        // sendMail(email, link)
+        //     .then((data) => {
+        //         console.log(data);
+        //         return res.json({
+        //             msg: 'Please check your mail for activation link...',
+        //         });
+        //     })
+        //     .catch((err) => {
+        //         console.log(err);
+        //         return res.status(408).json({
+        //             msg: `Failed to send mail, Please try again later!`,
+        //             link,
+        //         });
+        //     });
     } catch (err) {
         process.env.ENV == 'development' ? console.log(err) : null;
         return res.status(500).json({ msg: 'Something went wrong !' });
@@ -111,7 +141,7 @@ export const authActivate = async (req, res, next) => {
         });
     } catch (err) {
         console.log(err);
-        process.env.ENV == 'development' ? console.log(err) : null;
+        // process.env.ENV == 'development' ? console.log(err) : null;
         return res.status(500).json({ msg: 'Invalid or token expired !' });
     }
 };
@@ -133,7 +163,9 @@ export const verifyLogin = async (req, res, next) => {
         }).select('+password');
 
         if (!user)
-            return next(createError("User doesn't exists, Please f !", 403));
+            return next(
+                createError("User doesn't exists, Please register   !", 403),
+            );
 
         if (user && (await bcrypt.compare(password, user.password))) {
             let token = jwt.sign({ id: user._id }, process.env.SECRETTOKEN);

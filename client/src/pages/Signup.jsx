@@ -13,7 +13,7 @@ const SignupPage = () => {
                 <form className="px-8 py-6">
                     <h1 className="text-3xl font-bold mb-1">Welcome!</h1>
                     <h4 className="text-md mb-4 font-light">
-                        Let's create your account
+                        Let&apos;s create your account
                     </h4>
                     <div className="mb-4">
                         <label
@@ -43,7 +43,7 @@ const SignupPage = () => {
                             className="w-full  rounded-md border border-gray-400 p-2"
                         />
                     </div>
-                    <div className="mb-4">
+                    {/* <div className="mb-4">
                         <label
                             htmlFor="address"
                             className="block text-gray-700 font-bold mb-2"
@@ -56,7 +56,7 @@ const SignupPage = () => {
                             name="address"
                             className="w-[420px] rounded-md border border-gray-400 p-2"
                         />
-                    </div>
+                    </div> */}
                     <div className="mb-4">
                         <label
                             htmlFor="email"
@@ -68,7 +68,7 @@ const SignupPage = () => {
                             type="email"
                             id="email"
                             name="email"
-                            className="w-full rounded-md border border-gray-400 p-2"
+                            className="w-[420px] rounded-md border border-gray-400 p-2"
                         />
                     </div>
                     <div className="mb-4">
@@ -113,6 +113,14 @@ const SignupPage = () => {
                             className="font-bold text-green-500 hover:text-green-700"
                         >
                             Log in
+                        </Link>
+                    </div>
+                    <div className="mt-4 text-gray-700 text-center">
+                        <Link
+                            to="/"
+                            className="font-bold text-green-500 hover:text-green-700"
+                        >
+                            Go Back to Home
                         </Link>
                     </div>
                 </form>

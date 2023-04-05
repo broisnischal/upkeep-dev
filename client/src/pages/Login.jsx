@@ -1,8 +1,30 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import loginImage from '../assets/images/bgLogin.jpg';
+import axios from 'axios';
 
 const Login = () => {
+    const [emailorusername, setEmailorusername] = useState('');
+    const [password, setPassword] = useState('');
+    const [err, setErr] = useState('');
+
+    const handleSubmit = (e) => {
+        e.preventDefault();
+
+        async function handle() {
+            try {
+                const data = await axios.post('/api/v1/auth/login', {
+                    emailorusername,
+                    password,
+                });
+                console.log(data);
+            } catch (error) {
+                setErr(error.response.data.msg);
+            }
+        }
+
+        handle();
+    };
     return (
         <div className="flex h-screen w-screen bg-black">
             <div
@@ -17,6 +39,7 @@ const Login = () => {
                     </h4>
 
                     <div className="mb-4">
+                        <h5 className="text-red-500">{err}</h5>
                         <label
                             htmlFor="email"
                             className="block text-gray-700 font-bold mb-2"
@@ -25,6 +48,7 @@ const Login = () => {
                         </label>
                         <input
                             type="email"
+                            onChange={(e) => setEmailorusername(e.target.value)}
                             id="email"
                             name="email"
                             className="w-[420px] border rounded-md border-gray-400 p-2"
@@ -40,17 +64,20 @@ const Login = () => {
                         <input
                             type="password"
                             id="password"
+                            onChange={(e) => setPassword(e.target.value)}
                             name="password"
                             className="w-full border rounded-md border-gray-400 p-2"
                         />
                     </div>
 
                     <button
+                        onClick={handleSubmit}
                         type="submit"
                         className="bg-green-500 text-white font-bold py-2 px-4  focus:outline-none focus:shadow-outline hover:bg-green-600 w-full rounded-md"
                     >
                         Login
                     </button>
+
                     <div className="mt-4 text-gray-700 text-center">
                         Did not have an account?
                         <Link
@@ -58,6 +85,22 @@ const Login = () => {
                             className="font-bold text-green-500 hover:text-green-700"
                         >
                             Sign Up
+                        </Link>
+                    </div>
+                    <div className="mt-4 text-gray-700 text-center">
+                        <Link
+                            to="/"
+                            className="font-bold text-green-500 hover:text-green-700"
+                        >
+                            Go Back to Home
+                        </Link>
+                    </div>
+                    <div className="mt-4 text-gray-700 text-center">
+                        <Link
+                            to="/forget-password"
+                            className="font-bold text-red-500 hover:text-green-700"
+                        >
+                            Forget Password
                         </Link>
                     </div>
                 </form>

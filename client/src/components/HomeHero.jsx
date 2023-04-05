@@ -5,7 +5,7 @@ const HomeHero = () => {
     return (
         <>
             <div className="text-white">
-                <div className="max-w-[800px] mt-[-130px] w-full h-screen mx-auto text-center flex flex-col justify-center">
+                <div className="max-w-[800px] mt-[-97px] w-full h-screen mx-auto text-center flex flex-col justify-center">
                     <p className="text-[#00df9a] font-bold p-2">
                         Explore the Services
                     </p>
@@ -27,11 +27,11 @@ const HomeHero = () => {
                     <div className="max-w-md mx-auto mt-8 mr-[255px]">
                         <form className="flex">
                             <input
-                                className="rounded-l-lg p-4 border-t mr-0 border-b border-l text-gray-800 border-gray-200 bg-white"
-                                placeholder="Location"
+                                className="rounded-l-lg p-4 border-t mr-0 border-b border-l outline-none text-gray-800 border-gray-200 bg-white"
+                                placeholder="Kathmandu"
                             />
                             <input
-                                className="rounded-r-lg p-4 border-t mr-0 border-b border-r text-gray-800 border-gray-200 bg-white"
+                                className="rounded-r-lg p-4 border-t mr-0 border-b outline-none border-r text-gray-800 border-gray-200 bg-white"
                                 placeholder="Search for services"
                             />
                             <button className=" mx-2.5 px-10 rounded-lg bg-[#00df9a] text-black font-bold p-4 uppercase border-gray-200 border-t border-b  border-l border-r">

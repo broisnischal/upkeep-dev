@@ -62,7 +62,7 @@ export default function Example() {
                                 htmlFor="topic"
                                 className="block text-sm font-semibold leading-6 text-gray-900"
                             >
-                                Help Topic
+                                Subject
                             </label>
                             <div className="mt-2.5">
                                 <input
@@ -121,6 +121,7 @@ export default function Example() {
                                     name="message"
                                     id="message"
                                     rows={4}
+                                    placeholder="Enter your message here !"
                                     className="block w-full rounded-md border-0 py-2 px-3.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 sm:text-sm sm:leading-6"
                                     defaultValue={''}
                                 />

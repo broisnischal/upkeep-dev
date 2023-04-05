@@ -8,12 +8,10 @@ function FeaturesBlocks() {
                     {/* Section header */}
                     <div className="max-w-3xl mx-auto text-center pb-12 md:pb-20">
                         <h2 className=" h2 mb-4 text-white text-4xl font-bold">
-                            How Simple works
+                            How we works ?
                         </h2>
                         <p className="text-xl text-gray-600">
-                            Duis aute irure dolor in reprehenderit in voluptate
-                            velit esse cillum dolore eu fugiat nulla pariatur
-                            excepteur sint occaecat cupidatat.
+                            Customers can browse and purchase products or services from multiple vendors in one place, streamlining the buying process.
                         </p>
                     </div>
 
@@ -56,11 +54,10 @@ function FeaturesBlocks() {
                                 </g>
                             </svg>
                             <h4 className="text-xl font-bold leading-snug tracking-tight mb-1">
-                                Initial Contact
+                                Sign Up
                             </h4>
                             <p className="text-gray-600 text-center">
-                                Lorem ipsum dolor sit amet, consectetur
-                                adipiscing elit.
+                                Vendors and Customer register to sell services.
                             </p>
                         </div>
 
@@ -101,11 +98,10 @@ function FeaturesBlocks() {
                                 </g>
                             </svg>
                             <h4 className="text-xl font-bold leading-snug tracking-tight mb-1">
-                                Discovery Session
+                                Create Listings
                             </h4>
                             <p className="text-gray-600 text-center">
-                                Lorem ipsum dolor sit amet, consectetur
-                                adipiscing elit.
+                                Vendors create and manage their own listings
                             </p>
                         </div>
 
@@ -136,11 +132,10 @@ function FeaturesBlocks() {
                                 </g>
                             </svg>
                             <h4 className="text-xl font-bold leading-snug tracking-tight mb-1">
-                                Contracting
+                                Customer Browse
                             </h4>
                             <p className="text-gray-600 text-center">
-                                Lorem ipsum dolor sit amet, consectetur
-                                adipiscing elit.
+                                Customers browse the listings and book services.
                             </p>
                         </div>
 
@@ -187,11 +182,10 @@ function FeaturesBlocks() {
                                 </g>
                             </svg>
                             <h4 className="text-xl font-bold leading-snug tracking-tight mb-1">
-                                Fast Prototyping
+                                Make Purchases
                             </h4>
                             <p className="text-gray-600 text-center">
-                                Lorem ipsum dolor sit amet, consectetur
-                                adipiscing elit.
+                                Customers select and books desired services.
                             </p>
                         </div>
 
@@ -222,11 +216,10 @@ function FeaturesBlocks() {
                                 </g>
                             </svg>
                             <h4 className="text-xl font-bold leading-snug tracking-tight mb-1">
-                                Design Phase
+                                Payment
                             </h4>
                             <p className="text-gray-600 text-center">
-                                Lorem ipsum dolor sit amet, consectetur
-                                adipiscing elit.
+                                Service provider handles transactions and payments.
                             </p>
                         </div>
 
@@ -266,11 +259,10 @@ function FeaturesBlocks() {
                                 </g>
                             </svg>
                             <h4 className="text-xl font-bold leading-snug tracking-tight mb-1">
-                                Develop & Launch
+                                Shipping
                             </h4>
                             <p className="text-gray-600 text-center">
-                                Lorem ipsum dolor sit amet, consectetur
-                                adipiscing elit.
+                                Vendors delivers services to  desired customers.
                             </p>
                         </div>
                     </div>
