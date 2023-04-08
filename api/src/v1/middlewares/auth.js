@@ -5,6 +5,8 @@ import ROLE from '../enums/roles.enum.js';
 
 export const useLogin = async (req, res, next) => {
     try {
+        // bug fix
+        console.log(req.headers['Authorization'] + 'asdf');
         const { accesstoken: token } = req.cookies || req.body || req.headers;
         console.log(token);
 
