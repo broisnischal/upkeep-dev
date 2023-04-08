@@ -1,30 +1,32 @@
-import React, { useState } from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import loginImage from '../assets/images/bgLogin.jpg';
 import axios from 'axios';
+import { useSelector, useDispatch } from 'react-redux';
+import { useForm } from 'react-hook-form';
+import Error from '../components/Error';
+import Spinner from '../components/Spinner';
+import { userLogin } from '../features/auth/authActions';
 
 const Login = () => {
-    const [emailorusername, setEmailorusername] = useState('');
-    const [password, setPassword] = useState('');
-    const [err, setErr] = useState('');
+    const { loading, success, userInfo, error } = useSelector(
+        (state) => state.auth,
+    );
 
-    const handleSubmit = (e) => {
-        e.preventDefault();
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
-        async function handle() {
-            try {
-                const data = await axios.post('/api/v1/auth/login', {
-                    emailorusername,
-                    password,
-                });
-                console.log(data);
-            } catch (error) {
-                setErr(error.response.data.msg);
-            }
-        }
+    const { register, handleSubmit, reset } = useForm();
 
-        handle();
+    useEffect(() => {
+        if (userInfo) navigate('/');
+    }, [navigate, userInfo]);
+
+    const submitForm = (data) => {
+        console.log(data);
+        dispatch(userLogin(data));
     };
+
     return (
         <div className="flex h-screen w-screen bg-black">
             <div
@@ -32,25 +34,26 @@ const Login = () => {
                 style={{ backgroundImage: `url(${loginImage})` }}
             ></div>
             <div className="w-full lg:w-1/2 bg-white flex justify-center items-center">
-                <form className="px-8 py-6">
+                <form onSubmit={handleSubmit(submitForm)} className="px-8 py-6">
                     <h1 className="text-3xl font-bold mb-1">Welcome Back!</h1>
                     <h4 className="text-md mb-4 font-light">
                         Login into your account
                     </h4>
 
+                    {/* {error && <Error>{error}</Error>} */}
                     <div className="mb-4">
-                        <h5 className="text-red-500">{err}</h5>
+                        <h5 className="text-red-500">{error}</h5>
                         <label
                             htmlFor="email"
                             className="block text-gray-700 font-bold mb-2"
                         >
-                            Email:
+                            Email/username:
                         </label>
                         <input
-                            type="email"
-                            onChange={(e) => setEmailorusername(e.target.value)}
+                            type="text"
                             id="email"
-                            name="email"
+                            required
+                            {...register('emailorusername')}
                             className="w-[420px] border rounded-md border-gray-400 p-2"
                         />
                     </div>
@@ -64,7 +67,8 @@ const Login = () => {
                         <input
                             type="password"
                             id="password"
-                            onChange={(e) => setPassword(e.target.value)}
+                            {...register('password')}
+                            required
                             name="password"
                             className="w-full border rounded-md border-gray-400 p-2"
                         />
@@ -73,9 +77,9 @@ const Login = () => {
                     <button
                         onClick={handleSubmit}
                         type="submit"
-                        className="bg-green-500 text-white font-bold py-2 px-4  focus:outline-none focus:shadow-outline hover:bg-green-600 w-full rounded-md"
+                        className="bg-green-500 text-white font-bold py-2 px-4  focus:outline-none focus:shadow-outline hover:bg-green-600 w-full rounded-md relative"
                     >
-                        Login
+                        {loading ? <Spinner /> : 'Login'}
                     </button>
 
                     <div className="mt-4 text-gray-700 text-center">

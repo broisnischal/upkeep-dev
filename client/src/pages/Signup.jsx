@@ -1,8 +1,44 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 import SignupImage from '../assets/images/bgSignup.jpg';
+import { useDispatch, useSelector } from 'react-redux';
+import { useForm } from 'react-hook-form';
+import { userRegister } from '../features/auth/authActions';
+import Error from '../components/Error';
 
 const SignupPage = () => {
+    const [customError, setCustomError] = useState(null);
+    const { loading, userInfo, error, success } = useSelector(
+        (state) => state.auth,
+    );
+    const [info, setInfo] = useState('');
+    const { register, handleSubmit, reset, resetField } = useForm();
+
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    useEffect(() => {
+        // redirect authenticated user to profile screen
+        // if (userInfo) navigate('/');
+        // redirect user to login page if registration was successful
+        if (success)
+            setInfo(
+                'Please activate your account! Link will be valid for next 30 minutes.',
+            );
+        reset();
+        resetField();
+    }, [navigate, userInfo, success]);
+
+    const submitForm = (data) => {
+        if (data.password !== data.confirmPassword) {
+            setCustomError('Password mismatch');
+            return;
+        }
+        // transform email string to lowercase to avoid case sensitivity issues in login
+        data.email = data.email.toLowerCase();
+        dispatch(userRegister(data));
+    };
+
     return (
         <div className="flex h-screen w-screen bg-black">
             <div
@@ -10,7 +46,10 @@ const SignupPage = () => {
                 style={{ backgroundImage: `url(${SignupImage})` }}
             ></div>
             <div className="w-full lg:w-1/2 bg-white flex justify-center items-center">
-                <form className="px-8 py-6">
+                <form onSubmit={handleSubmit(submitForm)} className="px-8 py-6">
+                    {error && <Error>{error}</Error>}
+                    {customError && <Error>{customError}</Error>}
+                    {info && <span>{info}</span>}
                     <h1 className="text-3xl font-bold mb-1">Welcome!</h1>
                     <h4 className="text-md mb-4 font-light">
                         Let&apos;s create your account
@@ -25,6 +64,8 @@ const SignupPage = () => {
                         <input
                             type="text"
                             id="fullName"
+                            {...register('fullName')}
+                            required
                             name="fullName"
                             className="w-full rounded-md border border-gray-400 p-2"
                         />
@@ -40,6 +81,8 @@ const SignupPage = () => {
                             type="text"
                             id="username"
                             name="username"
+                            {...register('username')}
+                            required
                             className="w-full  rounded-md border border-gray-400 p-2"
                         />
                     </div>
@@ -68,6 +111,24 @@ const SignupPage = () => {
                             type="email"
                             id="email"
                             name="email"
+                            {...register('email')}
+                            required
+                            className="w-[420px] rounded-md border border-gray-400 p-2"
+                        />
+                    </div>
+                    <div className="mb-4">
+                        <label
+                            htmlFor="address"
+                            className="block text-gray-700 font-bold mb-2"
+                        >
+                            Address:
+                        </label>
+                        <input
+                            type="address"
+                            id="address"
+                            name="address"
+                            {...register('address')}
+                            required
                             className="w-[420px] rounded-md border border-gray-400 p-2"
                         />
                     </div>
@@ -81,6 +142,8 @@ const SignupPage = () => {
                         <input
                             type="password"
                             id="password"
+                            {...register('password')}
+                            required
                             name="password"
                             className="w-full rounded-md border border-gray-400 p-2"
                         />
@@ -96,11 +159,14 @@ const SignupPage = () => {
                             type="password"
                             id="confirmPassword"
                             name="confirmPassword"
+                            {...register('confirmPassword')}
+                            required
                             className="w-full rounded-md border border-gray-400 p-2"
                         />
                     </div>
 
                     <button
+                        disabled={loading}
                         type="submit"
                         className="bg-green-500 text-white font-bold py-2 px-4  focus:outline-none focus:shadow-outline hover:bg-green-600 w-full rounded-md"
                     >

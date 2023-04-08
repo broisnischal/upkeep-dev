@@ -6,6 +6,7 @@ import {
     forgotPassword,
     logout,
     resetPassword,
+    userDetails,
     verifyLogin,
 } from '../controllers/auth.controller.js';
 import { useLogin } from '../middlewares/auth.js';
@@ -17,6 +18,7 @@ authRouter.post('/', authRegister);
 authRouter.post('/login', verifyLogin);
 authRouter.get('/logout', useLogin, logout);
 authRouter.get('/status', useLogin, checkLogin);
+authRouter.get('/user', useLogin, userDetails);
 authRouter.post('/forgot', forgotPassword);
 authRouter.patch('/reset/:resetToken', resetPassword);
 

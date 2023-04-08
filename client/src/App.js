@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import Landing from './pages/Landing.jsx';
 import Signup from './pages/Signup';
@@ -9,7 +9,7 @@ import Error from './components/Error.jsx';
 import About from './pages/About.jsx';
 import SingleService from './components/SingleService.jsx';
 import OrderConfirm from './components/OrderConfirm';
-import Layout from "../src/components/Admin/components/shared/Layout.jsx"
+import Layout from '../src/components/Admin/components/shared/Layout.jsx';
 import Dashboard from './components/Admin/pages/Dashboard.jsx';
 import TotalVendor from './components/Admin/pages/Dashboard.jsx';
 import TotalCustomer from './components/Admin/pages/TotalCustomer';
@@ -22,8 +22,22 @@ import ForgetPassword from './pages/ForgetPassword.jsx';
 import Vendor from './pages/Vendor.jsx';
 import Wrapper from './components/Admin/components/shared/Wrapper.jsx';
 import Activate from './components/Auth/Activate.jsx';
+// import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { getUser } from './features/user/userAction.js';
 
 const App = () => {
+    const { loading, success, vendor, admin, role } = useSelector(
+        (state) => state.user,
+    );
+
+    const dispatch = useDispatch();
+    const token = localStorage.getItem('token');
+
+    useEffect(() => {
+        dispatch(getUser({ token }));
+    }, [token]);
+
     return (
         <>
             <Routes>

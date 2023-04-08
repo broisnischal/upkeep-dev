@@ -1,36 +1,40 @@
-import axios from 'axios';
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { Link, useParams, useNavigate } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { activateUser } from '../../features/auth/authActions';
+import Spinner from '../Spinner';
 
-import { useNavigate, useParams } from 'react-router-dom';
-
-const Activate = () => {
+const ActivationSuccess = () => {
     const { id } = useParams();
-    const navigate = useNavigate();
-    const [msg, setMsg] = useState('');
 
-    console.log(id);
+    const { loading, success, error, userInfo } = useSelector(
+        (state) => state.auth,
+    );
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
 
     useEffect(() => {
-        async function activate() {
-            try {
-                const data = await axios.get(`/api/v1/auth/activate/${id}`);
-
-                if (data) {
-                    setMsg(data.data.msg);
-                    navigate('/');
-                }
-            } catch (error) {
-                setMsg(error.response.data.msg);
-            }
-        }
-        activate();
-    }, [id]);
+        dispatch(activateUser({ id }));
+        if (success) navigate('/');
+    }, [dispatch, id]);
 
     return (
-        <div>
-            Activate <br /> {msg}{' '}
+        <div className="flex flex-col items-center justify-center min-h-screen ">
+            <div className="w-full max-w-md">
+                <h2 className="text-4xl font-bold mb-4 text-center text-white">
+                    {loading ? <Spinner /> : 'Account Activated'}
+                </h2>
+                <h1 className="text-xl mb-4 text-center ">{error}</h1>
+                <p className="text-center text-white">
+                    Your account has been successfully activated. You can now{' '}
+                    <Link to="/login" className="text-green-500 font-medium">
+                        log in
+                    </Link>{' '}
+                    to start using our app.
+                </p>
+            </div>
         </div>
     );
 };
 
-export default Activate;
+export default ActivationSuccess;

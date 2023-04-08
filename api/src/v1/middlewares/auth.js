@@ -5,11 +5,8 @@ import ROLE from '../enums/roles.enum.js';
 
 export const useLogin = async (req, res, next) => {
     try {
-        const { accesstoken: token } =
-            req.cookies ??
-            req.body ??
-            req.headers['Authorization'] ??
-            req.headers['x-access-token'];
+        const { accesstoken: token } = req.cookies || req.body || req.headers;
+        console.log(token);
 
         if (!token) return next(createError('Unauthorized !', 403));
         const accesstoken = token.split(' ')[1];
@@ -24,6 +21,7 @@ export const useLogin = async (req, res, next) => {
             next();
         });
     } catch (error) {
+        console.log(error);
         next(error);
     }
 };

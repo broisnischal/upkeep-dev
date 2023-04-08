@@ -107,6 +107,20 @@ export const authRegister = async (req, res, next) => {
     }
 };
 
+export const userDetails = async (req, res, next) => {
+    try {
+        if (!req.user)
+            return res.status(400).send({ msg: 'User unauthorized' });
+
+        const { _doc } = await User.findById(req.user);
+
+        return res.send({ ..._doc, role: req.role });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({ msg: 'Invalid or token expired !' });
+    }
+};
+
 export const authActivate = async (req, res, next) => {
     const { token } = req.params || req.body || req.headers['token'];
     try {
@@ -169,10 +183,13 @@ export const verifyLogin = async (req, res, next) => {
 
         if (user && (await bcrypt.compare(password, user.password))) {
             let token = jwt.sign({ id: user._id }, process.env.SECRETTOKEN);
+            const accesstoken = `Bearer ${token}`;
 
-            res.cookie('accesstoken', `Bearer ${token}`);
+            res.cookie('accesstoken', accesstoken);
 
-            return res.status(200).send({ msg: 'Logged in successfully.' });
+            return res
+                .status(200)
+                .send({ msg: 'Logged in successfully.', token: accesstoken });
         } else {
             res.clearCookie('accesstoken');
             return next(createError('Invalid Credentials!', 403));
