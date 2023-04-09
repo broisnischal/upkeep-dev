@@ -5,6 +5,7 @@ import { API } from '../../store';
 export const setUser = createAsyncThunk(
     'user/get',
     async ({ token }, { rejectWithValue }) => {
+        console.log(token);
         try {
             const config = {
                 headers: {

@@ -7,11 +7,19 @@ import { useForm } from 'react-hook-form';
 import Error from '../components/Error';
 import Spinner from '../components/Spinner';
 import { userLogin } from '../features/auth/authActions';
+import { useGetDetailsQuery } from '../app/services/auth/authService';
+import { setUser } from '../features/user/userAction';
+import { setCredentials } from '../features/user/userSlice';
 
 const Login = () => {
-    const { loading, success, userInfo, error } = useSelector(
+    const { loading, logged, success, userInfo, error } = useSelector(
         (state) => state.auth,
     );
+    const { userToken } = useSelector((state) => state.auth);
+
+    const { data: details, isFetching } = useGetDetailsQuery('userDetails', {
+        pollingInterval: 900000,
+    });
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -19,12 +27,13 @@ const Login = () => {
     const { register, handleSubmit, reset } = useForm();
 
     useEffect(() => {
-        if (userInfo) navigate('/');
-    }, [navigate, userInfo]);
+        if (logged) navigate('/');
+    }, [navigate, logged]);
 
     const submitForm = (data) => {
-        console.log(data);
         dispatch(userLogin(data));
+        // const details = useUserDetails();
+        dispatch(setCredentials(details));
     };
 
     return (

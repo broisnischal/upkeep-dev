@@ -19,7 +19,9 @@ const authSlice = createSlice({
     reducers: {
         logout: (state) => {
             localStorage.removeItem('userToken');
-            state.loading = false;
+            state.logged = false;
+            state.userToken = null;
+            state.userInfo = null;
         },
     },
     extraReducers: {
@@ -28,8 +30,10 @@ const authSlice = createSlice({
             state.error = null;
         },
         [userLogin.fulfilled]: (state, { payload }) => {
+            console.log(payload);
             state.loading = false;
             state.userInfo = payload;
+            state.logged = true;
             state.userToken = payload.token;
         },
         [userLogin.rejected]: (state, { payload }) => {

@@ -1,12 +1,21 @@
 import React, { useState } from 'react';
 import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai';
 import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { logout } from '../features/auth/authSlice';
 
 const Navbar = () => {
+    const { loading, logged } = useSelector((state) => state.auth);
     const [nav, setNav] = useState(false);
+    const dispatch = useDispatch();
 
     const handleNav = () => {
         setNav(!nav);
+    };
+
+    const handleLogout = () => {
+        localStorage.removeItem('token');
+        dispatch(logout());
     };
 
     return (
@@ -28,17 +37,31 @@ const Navbar = () => {
                     About
                 </Link>
 
-                <Link
-                    to="/signup"
-                    className="p-4 text-center font-medium rounded-md w-24 px-3 text-black bg-[#00df9a]"
-                    style={{
-                        height: '40px',
-                        paddingTop: '9px',
-                        marginTop: '6px',
-                    }}
-                >
-                    SignUp
-                </Link>
+                {logged ? (
+                    <button
+                        onClick={handleLogout}
+                        className="p-4 text-center font-medium rounded-md w-24 px-3 text-black bg-[#00df9a]"
+                        style={{
+                            height: '40px',
+                            paddingTop: '9px',
+                            marginTop: '6px',
+                        }}
+                    >
+                        Logout
+                    </button>
+                ) : (
+                    <Link
+                        to="/signup"
+                        className="p-4 text-center font-medium rounded-md w-24 px-3 text-black bg-[#00df9a]"
+                        style={{
+                            height: '40px',
+                            paddingTop: '9px',
+                            marginTop: '6px',
+                        }}
+                    >
+                        SignUp
+                    </Link>
+                )}
             </ul>
             <div onClick={handleNav} className="block md:hidden ">
                 {nav ? (
