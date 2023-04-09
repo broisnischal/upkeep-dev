@@ -2,14 +2,14 @@ import axios from 'axios';
 import { createAsyncThunk } from '@reduxjs/toolkit';
 import { API } from '../../store';
 
-export const getUser = createAsyncThunk(
+export const setUser = createAsyncThunk(
     'user/get',
     async ({ token }, { rejectWithValue }) => {
         try {
             const config = {
                 headers: {
                     'Content-Type': 'application/json',
-                    Authorization: `${token}`,
+                    Authorization: `Bearer ${token}`,
                 },
             };
 

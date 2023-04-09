@@ -1,10 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { getUser } from './userAction';
+import { setUser } from './userAction';
 
 const userToken = localStorage.getItem('userToken') ?? null;
 
 const initialState = {
     id: null,
+    username: '',
     loading: false,
     success: false,
     vendor: false,
@@ -15,14 +16,23 @@ const initialState = {
 const userSlice = createSlice({
     name: 'User',
     initialState,
-    reducers: {},
+    reducers: {
+        setCredentials: (state, { payload }) => {
+            console.log(payload);
+            state.vendor = payload.vendorAccess || false;
+            state.admin = payload.role === 3 ? true : false;
+            state.username = payload.username;
+            state.role = payload.role;
+            state.id = payload._id;
+        },
+    },
     extraReducers: {
-        [getUser.loading]: (state) => {
+        [setUser.loading]: (state) => {
             state.error = false;
             state.loading = true;
             state.success = false;
         },
-        [getUser.fulfilled]: (state, { payload }) => {
+        [setUser.fulfilled]: (state, { payload }) => {
             state.error = false;
             state.loading = false;
             state.success = false;
@@ -30,12 +40,14 @@ const userSlice = createSlice({
             state.admin = payload.role === 3 ? true : false;
             state.role = payload.role;
         },
-        [getUser.rejected]: (state, { payload }) => {
+        [setUser.rejected]: (state, { payload }) => {
             state.error = payload;
             state.loading = false;
             state.success = false;
         },
     },
 });
+
+export const { setCredentials } = userSlice.actions;
 
 export default userSlice.reducer;

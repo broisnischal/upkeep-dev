@@ -38,7 +38,7 @@ process.env.MONGOURI
               server.on('error', onError);
               server.on('listening', onListening);
               console.log(
-                  `Server listening and ${process.env.MONGOURI} connected !!`,
+                  `Server listening on ${port} and ${process.env.MONGOURI} connected !!`,
               );
           })
           .catch((err) => {

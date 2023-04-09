@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import { Routes, Route, useNavigate } from 'react-router-dom';
 import Landing from './pages/Landing.jsx';
 import Signup from './pages/Signup';
 import Login from './pages/Login';
@@ -25,18 +25,34 @@ import Activate from './components/Auth/Activate.jsx';
 // import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { getUser } from './features/user/userAction.js';
+import { useGetDetailsQuery } from './app/services/auth/authService.js';
+import { setCredentials } from './features/user/userSlice.js';
+import ProtectedRoute from './routes/ProtectedRoute.js';
 
 const App = () => {
-    const { loading, success, vendor, admin, role } = useSelector(
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+
+    const { email, username, vendorAccess, role } = useSelector(
         (state) => state.user,
     );
+    const { loading, logged, userInfo, error } = useSelector(
+        (state) => state.auth,
+    );
 
-    const dispatch = useDispatch();
-    const token = localStorage.getItem('token');
+    const { data, isFetching } = useGetDetailsQuery('userDetails', {
+        pollingInterval: 900000,
+    }); // 15 minute
 
     useEffect(() => {
-        dispatch(getUser({ token }));
-    }, [token]);
+        if (data && !isFetching) {
+            dispatch(setCredentials(data));
+        }
+    }, [data, dispatch]);
+
+    // useEffect(() => {
+    //     dispatch(getUser({ userToken }));
+    // }, [token]);
 
     return (
         <>
@@ -46,7 +62,9 @@ const App = () => {
                 <Route path="/signup" element={<Signup />} />
                 <Route path="/login" element={<Login />} />
                 <Route path="/home" element={<Home />} />
-                <Route path="/help" element={<Contact />} />
+                <Route element={<ProtectedRoute />}>
+                    <Route path="/help" element={<Contact />} />
+                </Route>
                 <Route path="/about" element={<About />} />
                 <Route path="/forget-password" element={<ForgetPassword />} />
                 <Route

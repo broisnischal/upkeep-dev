@@ -6,15 +6,20 @@ import ROLE from '../enums/roles.enum.js';
 export const useLogin = async (req, res, next) => {
     try {
         // bug fix
-        console.log(req.headers['Authorization'] + 'asdf');
-        const { accesstoken: token } = req.cookies || req.body || req.headers;
-        console.log(token);
+        // console.log(req.headers['Authorization'] + 'asdf');
+        let token = req.headers.authorization ?? req.cookies.accesstoken;
 
         if (!token) return next(createError('Unauthorized !', 403));
-        const accesstoken = token.split(' ')[1];
-        if (!accesstoken) return next(createError('Unauthorized !', 403));
+        if (!token) return next(createError('Unauthorized !', 403));
+        if (token.includes(' ')) {
+            token = token.split(' ')[1];
+        } else {
+            return res
+                .send(400)
+                .json({ message: 'Invalid token authorization!' });
+        }
 
-        jwt.verify(accesstoken, process.env.SECRETTOKEN, async (err, res) => {
+        jwt.verify(token, process.env.SECRETTOKEN, async (err, res) => {
             if (err) throw err;
             const role = await User.findById(res.id).select('role');
             if (role == null) return next(createError('Unauthorized !', 403));

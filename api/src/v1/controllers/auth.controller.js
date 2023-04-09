@@ -183,13 +183,11 @@ export const verifyLogin = async (req, res, next) => {
 
         if (user && (await bcrypt.compare(password, user.password))) {
             let token = jwt.sign({ id: user._id }, process.env.SECRETTOKEN);
-            const accesstoken = `Bearer ${token}`;
+            // const accesstoken = `Bearer ${token}`;
 
-            res.cookie('accesstoken', accesstoken);
+            res.cookie('accesstoken', token);
 
-            return res
-                .status(200)
-                .send({ msg: 'Logged in successfully.', token: accesstoken });
+            return res.status(200).send({ token });
         } else {
             res.clearCookie('accesstoken');
             return next(createError('Invalid Credentials!', 403));
