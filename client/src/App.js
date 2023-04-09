@@ -54,6 +54,23 @@ const App = () => {
     //     dispatch(getUser({ userToken }));
     // }, [token]);
 
+    /**
+     *todo fix this routes and each particular routes must be wrapped with the outlet component
+     *todo fix the folder naming from the uppercase to lowercase of two files in component directory : admin and vendor
+     *todo fix the all code with the key props and remove the div class with the class but insted rename it to className
+     *todo create the form for vendor to submit the new service
+     *todo create the form and page where admin can create the category
+     *todo create the admin total vendor page, activated vendor page, users page, and inside users page there should be button in the user table or the field where admin can abondan/restrict the vendor or user
+     *todo Create the vendor approval page where admin can approve the vendors
+     *todo Create the product uploading id and get the key of either other service provider or cloudinary
+     *todo create the api to upload the image in the api
+     *todo create the order or checkout popup for the vendor when they add services
+     *todo Manage the folder strucutre properly,
+     *todo Create user profile page and the form if in case needed to update the user profile
+     *todo Create the footers page
+     *todo enwrap the folder inside the proper folder and create cusom error popup
+     */
+
     return (
         <>
             <Routes>

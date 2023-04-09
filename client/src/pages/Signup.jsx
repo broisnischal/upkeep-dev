@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useForm } from 'react-hook-form';
 import { userRegister } from '../features/auth/authActions';
 import Error from '../components/Error';
+import Spinner from '../components/Spinner';
 
 const SignupPage = () => {
     const [customError, setCustomError] = useState(null);
@@ -168,9 +169,9 @@ const SignupPage = () => {
                     <button
                         disabled={loading}
                         type="submit"
-                        className="bg-green-500 text-white font-bold py-2 px-4  focus:outline-none focus:shadow-outline hover:bg-green-600 w-full rounded-md"
+                        className="bg-green-500 text-white font-bold py-2 px-4  focus:outline-none focus:shadow-outline hover:bg-green-600 w-full relative rounded-md"
                     >
-                        Sign Up
+                        {loading ? <Spinner /> : 'Sign Up'}
                     </button>
                     <div className="mt-4 text-gray-700 text-center">
                         Already have an account?
