@@ -19,9 +19,27 @@ export const getAllUsers = async (req, res, next) => {
         return next(error);
     }
 };
+export const getAllVendors = async (req, res, next) => {
+    try {
+        const [limit, skip] = limitAndSkip(req.query);
+
+        const users = await User.find({ vendorAccess: true })
+            .sort({
+                createdAt: -1,
+            })
+            .limit(limit)
+            .skip(skip);
+
+        return res.json(users);
+    } catch (error) {
+        return next(error);
+    }
+};
 
 export const updateUser = async (req, res, next) => {
     try {
+        await User.findByIdAndUpdate(req.user, { ...req.body });
+        return res.status(200).send('User updated!');
     } catch (error) {
         next(error);
     }

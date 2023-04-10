@@ -30,6 +30,7 @@ export const useLogin = async (req, res, next) => {
                 if (err) {
                     throw err;
                 }
+                console.log(res);
                 const role = await User.findById(res.id).select('role');
                 console.log(role);
                 if (role == null) {

@@ -10,13 +10,11 @@ export const createCategory = asyncHandler(async (req, res, next) => {
 
     console.log(req.user);
 
-    if (!name || !icon || !color)
-        return next(createError('Please enter all fields !', 400));
+    if (!name) return next(createError('Please enter all fields !', 400));
 
     const cat = await Category.create({
         name,
-        icon,
-        color,
+        ...(icon && { icon }, color && { color }),
     });
 
     return res.status(200).send(cat);
@@ -30,7 +28,7 @@ export const getPendingVendors = asyncHandler(async (req, res, next) => {
     const [limit, skip] = limitAndSkip(req.query);
 
     return res.status(200).send(
-        await VendorRequest.find().populate({
+        await VendorRequest.find({}, { skip, limit }).populate({
             path: 'user',
             select: '+role',
         }),

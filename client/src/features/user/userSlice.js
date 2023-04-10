@@ -20,7 +20,7 @@ const userSlice = createSlice({
         setCredentials: (state, { payload }) => {
             console.log(payload);
             state.vendor = payload.vendorAccess || false;
-            state.admin = payload.role === 3 ? true : false;
+            state.admin = payload.role === 2 ? true : false;
             state.username = payload.username;
             state.role = payload.role;
             state.id = payload._id;

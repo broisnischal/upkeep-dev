@@ -11,7 +11,7 @@ import SingleService from './components/SingleService.jsx';
 import OrderConfirm from './components/OrderConfirm';
 import Layout from '../src/components/Admin/components/shared/Layout.jsx';
 import Dashboard from './components/Admin/pages/Dashboard.jsx';
-import TotalVendor from './components/Admin/pages/Dashboard.jsx';
+import TotalVendor from './components/Admin/pages/TotalVendor.jsx';
 import TotalCustomer from './components/Admin/pages/TotalCustomer';
 import Approvals from './components/Admin/pages/TotalCustomer';
 import AdminLogin from './components/Admin/pages/AdminLogin';
@@ -28,12 +28,17 @@ import { setCredentials } from './features/user/userSlice.js';
 import ProtectedRoute from './routes/ProtectedRoute.js';
 import VendorApproval from './components/Admin/pages/VendorApproval';
 import CreateCategory from './components/Admin/pages/CreateCategory';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
+import AdminRoute from './routes/AdminRoute.js';
+
+const queryClient = new QueryClient({});
 
 const App = () => {
     const dispatch = useDispatch();
     const navigate = useNavigate();
 
-    const { email, username, vendorAccess, role } = useSelector(
+    const { email, username, vendorAccess, admin, role } = useSelector(
         (state) => state.user,
     );
     const { loading, logged, userInfo, error } = useSelector(
@@ -72,47 +77,72 @@ const App = () => {
 
     return (
         <>
-            <Routes>
-                <Route exact path="/" element={<Landing />}></Route>
-                <Route path="/home" element={<Home />} />
-                <Route path="/signup" element={<Signup />} />
-                <Route path="/login" element={<Login />} />
-                <Route path="/home" element={<Home />} />
-                <Route element={<ProtectedRoute />}>
-                    <Route path="/help" element={<Contact />} />
-                </Route>
-                <Route path="/about" element={<About />} />
-                <Route path="/forget-password" element={<ForgetPassword />} />
-                <Route
-                    path="/activation-success"
-                    element={<ActivationSuccess />}
-                />
-                <Route path="/singleservice" element={<SingleService />} />
-                <Route path="/order-confirm" element={<OrderConfirm />} />
-                <Route path="/checkout" element={<CheckoutForm />} />
-                <Route path="/vendor" element={<Vendor />} />
+            <div>
+                <QueryClientProvider client={queryClient}>
+                    <Routes>
+                        <Route exact path="/" element={<Landing />}></Route>
+                        <Route path="/home" element={<Home />} />
+                        <Route path="/signup" element={<Signup />} />
+                        <Route path="/login" element={<Login />} />
+                        <Route path="/home" element={<Home />} />
+                        <Route element={<ProtectedRoute />}>
+                            <Route path="/help" element={<Contact />} />
+                        </Route>
+                        <Route path="/about" element={<About />} />
+                        <Route
+                            path="/forget-password"
+                            element={<ForgetPassword />}
+                        />
+                        <Route
+                            path="/activation-success"
+                            element={<ActivationSuccess />}
+                        />
+                        <Route
+                            path="/singleservice"
+                            element={<SingleService />}
+                        />
+                        <Route
+                            path="/order-confirm"
+                            element={<OrderConfirm />}
+                        />
+                        <Route path="/checkout" element={<CheckoutForm />} />
+                        <Route path="/vendor" element={<Vendor />} />
 
-                {/* Admin */}
+                        {/* Admin */}
 
-                <Route path="admin-login" element={<AdminLogin />} />
-                <Route path="/admin" element={<Layout />}>
-                    <Route index element={<Dashboard />} />
-                    <Route path="totalcustomer" element={<TotalCustomer />} />
-                    <Route path="totalvendor" element={<TotalVendor />} />
-                    <Route
-                        path="vendor-approval"
-                        element={<VendorApproval />}
-                    />
-                    <Route
-                        path="create-category"
-                        element={<CreateCategory />}
-                    />
-                </Route>
-                {/* Vendor */}
+                        <Route path="admin-login" element={<AdminLogin />} />
+                        <Route element={<AdminRoute />}>
+                            <Route path="/admin" element={<Layout />}>
+                                <Route index element={<Dashboard />} />
+                                <Route
+                                    path="totalcustomer"
+                                    element={<TotalCustomer />}
+                                />
+                                <Route
+                                    path="totalvendor"
+                                    element={<TotalVendor />}
+                                />
+                                <Route
+                                    path="vendor-approval"
+                                    element={<VendorApproval />}
+                                />
+                                <Route
+                                    path="create-category"
+                                    element={<CreateCategory />}
+                                />
+                            </Route>
+                        </Route>
+                        {/* Vendor */}
 
-                <Route path="activate/:id" element={<Activate />} />
-                {/* <Route element={Error} /> */}
-            </Routes>
+                        <Route
+                            path="/auth/activate/:id"
+                            element={<Activate />}
+                        />
+                        {/* <Route element={Error} /> */}
+                    </Routes>
+                    <ReactQueryDevtools initialIsOpen={false} />
+                </QueryClientProvider>
+            </div>
         </>
     );
 };
