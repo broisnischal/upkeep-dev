@@ -4,38 +4,56 @@ import User from '../models/user.model.js';
 import ROLE from '../enums/roles.enum.js';
 
 export const useLogin = async (req, res, next) => {
+    let token = req.headers.authorization || req.cookies.accesstoken;
+    console.log(token);
+    if (!token) {
+        return next(createError('Unauthorized !', 403));
+    }
     try {
-        // bug fix
-        // console.log(req.headers['Authorization'] + 'asdf');
-        let token = req.headers.authorization ?? req.cookies.accesstoken;
-
-        if (!token) return next(createError('Unauthorized !', 403));
-        if (!token) return next(createError('Unauthorized !', 403));
         if (token.includes(' ')) {
             token = token.split(' ')[1];
+            jwt.verify(token, process.env.SECRETTOKEN, async (err, res) => {
+                if (err) {
+                    throw err;
+                }
+                const role = await User.findById(res.id).select('role');
+                console.log(role);
+                if (role == null) {
+                    return next(createError('Unauthorized !', 403));
+                }
+                req.user = res.id;
+                req.role = role.role;
+                next();
+            });
+        } else if (!token.includes(' ')) {
+            jwt.verify(token, process.env.SECRETTOKEN, async (err, res) => {
+                if (err) {
+                    throw err;
+                }
+                const role = await User.findById(res.id).select('role');
+                console.log(role);
+                if (role == null) {
+                    return next(createError('Unauthorized !', 403));
+                }
+                req.user = res.id;
+                req.role = role.role;
+                next();
+            });
         } else {
             return res
                 .send(400)
                 .json({ message: 'Invalid token authorization!' });
         }
-
-        jwt.verify(token, process.env.SECRETTOKEN, async (err, res) => {
-            if (err) throw err;
-            const role = await User.findById(res.id).select('role');
-            if (role == null) return next(createError('Unauthorized !', 403));
-            req.user = res.id;
-            req.role = role.role;
-            next();
-        });
     } catch (error) {
-        console.log(error);
-        next(error);
+        console.log(error.message);
+        return next(error);
     }
 };
 
 export const verifyCustomerAsWellAsAdmin = async () => {
     try {
         const role = req.role;
+        console.log(role);
         if (!role) return res.send(400).json({ message: 'Bad Request!' });
         if (role === ROLE.CUSTOMER || role === ROLE.ADMIN) return next();
     } catch (error) {
@@ -59,7 +77,7 @@ export const verifyVendor = async (req, res, next) => {
         }
         return next(createError('Vendor access denied !', 403));
     } catch (error) {
-        next(error);
+        return next(error);
     }
 };
 
@@ -71,9 +89,9 @@ export const verifyAdmin = async (req, res, next) => {
         if (role == 2) {
             next();
         } else {
-            next(createError('Admin access denied !', 403));
+            return next(createError('Admin access denied !', 403));
         }
     } catch (error) {
-        next(error);
+        return next(error);
     }
 };

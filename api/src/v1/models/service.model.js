@@ -31,9 +31,7 @@ const serviceSchema = new mongoose.Schema({
         type: Number,
         required: true,
     },
-    itemInStock: {
-        type: Number,
-    },
+    featured: { type: Boolean, default: false },
     status: {
         type: String,
         enum: ['pending', 'inprogess', 'completed', 'rejected', 'archived'],

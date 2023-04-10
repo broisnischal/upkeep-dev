@@ -37,12 +37,13 @@ app.use('/api/v1/cart', cartRouter);
 // Handling error in routes
 
 app.use((err, req, res, next) => {
-    if (err)
+    if (err) {
         return res.status(err.status || 500).send({
             msg: err.message || 'Opps ! Something went wrong 🥲...',
             success: false,
             stack: process.env.ENV === 'development' ? err.stack : null,
         });
+    }
 });
 
 export default app;
