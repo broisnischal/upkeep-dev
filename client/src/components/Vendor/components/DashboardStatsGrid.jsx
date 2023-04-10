@@ -5,49 +5,36 @@ export default function DashboardStatsGrid() {
 	return (
 		<div className="flex gap-4">
 			<BoxWrapper>
-				<div className="rounded-full h-16 w-16 flex items-center justify-center bg-sky-500">
+				<div className="rounded-full h-12 w-12 flex items-center justify-center bg-sky-500">
 					<IoBagHandle className="text-2xl text-white" />
 				</div>
 				<div className="pl-4">
 					<span className="text-sm text-gray-500 font-light">Total Customers</span>
 					<div className="flex items-center">
-						<strong className="text-xl text-gray-700 font-semibold">302</strong>
+						<strong className="text-xl text-gray-700 font-semibold">4232</strong>
 					</div>
 				</div>
 			</BoxWrapper>
 			<BoxWrapper>
-				<div className="rounded-full h-16 w-16  flex items-center justify-center bg-orange-600">
+				<div className="rounded-full h-12 w-12 flex items-center justify-center bg-orange-600">
 					<IoPieChart className="text-2xl text-white" />
 				</div>
 				<div className="pl-4">
-					<span className="text-sm text-gray-500 font-light">Total Vendors</span>
+					<span className="text-sm text-gray-500 font-light">Total Bookings</span>
 					<div className="flex items-center">
 						<strong className="text-xl text-gray-700 font-semibold">23</strong>
-						<span className="text-sm text-green-500 pl-2">-343</span>
 					</div>
 				</div>
 			</BoxWrapper>
+
 			<BoxWrapper>
-				<div className="rounded-full h-16 w-16 flex items-center justify-center bg-yellow-400">
-					<IoPeople className="text-2xl text-white" />
-				</div>
-				<div className="pl-4">
-					<span className="text-sm text-gray-500 font-light">Total Customers</span>
-					<div className="flex items-center">
-						<strong className="text-xl text-gray-700 font-semibold">12313</strong>
-						<span className="text-sm text-red-500 pl-2">-30</span>
-					</div>
-				</div>
-			</BoxWrapper>
-			<BoxWrapper>
-				<div className="rounded-full h-16 w-16  flex items-center justify-center bg-green-600">
+				<div className="rounded-full h-12 w-12 flex items-center justify-center bg-green-600">
 					<IoCart className="text-2xl text-white" />
 				</div>
 				<div className="pl-4">
-					<span className="text-sm text-gray-500 font-light">Total Orders</span>
+					<span className="text-sm text-gray-500 font-light">Total Pendings</span>
 					<div className="flex items-center">
-						<strong className="text-xl text-gray-700 font-semibold">16432</strong>
-						<span className="text-sm text-red-500 pl-2">-43</span>
+						<strong className="text-xl text-gray-700 font-semibold">32</strong>
 					</div>
 				</div>
 			</BoxWrapper>
