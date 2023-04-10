@@ -1,16 +1,18 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
-import { Outlet } from 'react-router-dom';
+import { NavLink, Outlet } from 'react-router-dom';
 import '../styles/unauthorized.css';
 
 const ProtectedRoute = () => {
-    const { id } = useSelector((state) => state.user);
+    const { logged } = useSelector((state) => state.auth);
 
-    if (!id) {
+    if (!logged) {
         return (
             <div className="unauthorized">
-                <h1>Unauthorized</h1>
-                <span></span>
+                <h1 className="block">Unauthorized</h1>
+                <span>
+                    <NavLink to="/login">Login</NavLink> to gain accesss
+                </span>
             </div>
         );
     }

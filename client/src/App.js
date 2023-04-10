@@ -14,13 +14,11 @@ import Dashboard from './components/Admin/pages/Dashboard.jsx';
 import TotalVendor from './components/Admin/pages/Dashboard.jsx';
 import TotalCustomer from './components/Admin/pages/TotalCustomer';
 import Approvals from './components/Admin/pages/TotalCustomer';
-import Chat from './components/Admin/pages/Approvals';
 import AdminLogin from './components/Admin/pages/AdminLogin';
 import CheckoutForm from './components/CheckoutForm.jsx';
 import ActivationSuccess from './pages/ActivationSuccess.jsx';
 import ForgetPassword from './pages/ForgetPassword.jsx';
 import Vendor from './pages/Vendor.jsx';
-import Wrapper from './components/Admin/components/shared/Wrapper.jsx';
 import Activate from './components/Auth/Activate.jsx';
 // import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
@@ -28,6 +26,8 @@ import { getUser } from './features/user/userAction.js';
 import { useGetDetailsQuery } from './app/services/auth/authService.js';
 import { setCredentials } from './features/user/userSlice.js';
 import ProtectedRoute from './routes/ProtectedRoute.js';
+import VendorApproval from './components/Admin/pages/VendorApproval';
+import CreateCategory from './components/Admin/pages/CreateCategory';
 
 const App = () => {
     const dispatch = useDispatch();
@@ -95,25 +95,22 @@ const App = () => {
                 {/* Admin */}
 
                 <Route path="admin-login" element={<AdminLogin />} />
-                <Route path="/admin-dashboard" element={<Layout />}>
+                <Route path="/admin" element={<Layout />}>
                     <Route index element={<Dashboard />} />
                     <Route path="totalcustomer" element={<TotalCustomer />} />
                     <Route path="totalvendor" element={<TotalVendor />} />
-                    <Route path="approval" element={<Approvals />} />
-                    <Route path="chat" element={<Chat />} />
+                    <Route
+                        path="vendor-approval"
+                        element={<VendorApproval />}
+                    />
+                    <Route
+                        path="create-category"
+                        element={<CreateCategory />}
+                    />
                 </Route>
                 {/* Vendor */}
 
-                <Route path="/vendor-dashboard" element={<Layout />}>
-                    <Route index element={<Dashboard />} />
-                    <Route path="totalcustomer" element={<TotalCustomer />} />
-                    <Route path="chat" element={<Chat />} />
-                </Route>
-                {/* <Route path="/auth/activate/:id" element={<div>asdf</div>} /> */}
-                <Route path="/auth" element={<Wrapper />}>
-                    <Route index element={<div>asdf</div>} />
-                    <Route path="activate/:id" element={<Activate />} />
-                </Route>
+                <Route path="activate/:id" element={<Activate />} />
                 <Route element={Error} />
             </Routes>
         </>
