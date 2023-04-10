@@ -64,3 +64,18 @@ export const requestVendor = async (req, res, next) => {
         next(error);
     }
 };
+
+export const updateProfile = async function (req, res) {
+    const filePath = req.imagePath;
+
+    try {
+        const user = await User.findById(req.user);
+        user.profileImage = filePath;
+        await user.save();
+
+        res.send('Profile image updated');
+    } catch (err) {
+        console.error(err);
+        res.status(500).send('Error saving profile image');
+    }
+};
