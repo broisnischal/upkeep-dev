@@ -111,7 +111,7 @@ const App = () => {
                 {/* Vendor */}
 
                 <Route path="activate/:id" element={<Activate />} />
-                <Route element={Error} />
+                {/* <Route element={Error} /> */}
             </Routes>
         </>
     );
