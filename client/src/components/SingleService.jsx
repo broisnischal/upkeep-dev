@@ -5,6 +5,7 @@ import { useQuery } from '@tanstack/react-query';
 import Spinner from './Spinner.jsx';
 import axios from 'axios';
 import { API } from '../store.js';
+import Footer from './Footer.jsx';
 
 const SingleService = () => {
     const { id } = useParams();
@@ -119,6 +120,7 @@ const SingleService = () => {
                     </div>
                 </div>
             </section>
+            <Footer />
         </>
     );
 };
