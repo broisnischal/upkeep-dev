@@ -21,6 +21,16 @@ const CreateCategory = ({ onSubmit }) => {
     //     getCat();
     // }, []);
 
+    const { data, isLoading, error, refetch } = useQuery(
+        ['category'],
+        async () => {
+            const response = await axios.get(`${API}/admin/category`, {
+                headers: { Authorization: `Bearer ${userToken}` },
+            });
+            return response.data;
+        },
+    );
+
     const submitForm = (data) => {
         console.log(data);
         async function createCategory() {
@@ -35,14 +45,8 @@ const CreateCategory = ({ onSubmit }) => {
         }
         createCategory();
         reset();
+        refetch();
     };
-
-    const { data, isLoading, error } = useQuery(['category'], async () => {
-        const response = await axios.get(`${API}/admin/category`, {
-            headers: { Authorization: `Bearer ${userToken}` },
-        });
-        return response.data;
-    });
 
     return (
         <>
