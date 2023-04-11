@@ -49,3 +49,9 @@ export const createService = asyncHandler(async (req, res, next) => {
 export const getServices = asyncHandler(async (req, res, next) => {
     return res.status(200).send(await Service.find().populate('user'));
 });
+
+export const getService = asyncHandler(async (req, res, next) => {
+    const id = req.query.id || req.params.id;
+    const service = await Service.findById(id).populate('user');
+    return res.status(200).send(service);
+});

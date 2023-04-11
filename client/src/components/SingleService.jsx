@@ -1,7 +1,28 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import Navbar from './Navbar.jsx';
+import { useParams } from 'react-router-dom';
+import { useQuery } from '@tanstack/react-query';
+import Spinner from './Spinner.jsx';
+import axios from 'axios';
+import { API } from '../store.js';
 
 const SingleService = () => {
+    const { id } = useParams();
+
+    // useEffect(() => {
+    //     refetch();
+    // }, [id]);
+
+    const { data, isFetching } = useQuery(['singleservice'], async () => {
+        const res = await axios.get(`${API}/service/single?id=${id}`);
+        return res.data;
+    });
+
+    if (isFetching) {
+        return <Spinner />;
+    }
+    console.log(data);
+
     return (
         <>
             <Navbar />
@@ -11,14 +32,14 @@ const SingleService = () => {
                         <img
                             alt="Plumber Service"
                             className="lg:w-1/2 w-full lg:h-96 h-64 object-contain object-center rounded "
-                            src="https://www.britishgas.co.uk/aem6/content/dam/britishgas/images/home-services/engineer-plumbing-tap-360.jpg"
+                            src={data?.image[0]}
                         />
                         <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
                             <h2 className="text-sm title-font text-gray-500 dark:text-gray-300 tracking-widest">
-                                AITC Home Service Pvt Ltd.
+                                {data?.user?.name}
                             </h2>
                             <h1 className="text-gray-900 dark:text-white text-3xl title-font font-medium mb-1">
-                                Plumber
+                                {data.title}
                             </h1>
                             <div className="flex mb-4">
                                 <span className="flex items-center">
@@ -83,17 +104,12 @@ const SingleService = () => {
                                 </span>
                             </div>
                             <p className="leading-relaxed dark:text-gray-300">
-                                Lorem ipsum dolor sit, amet consectetur
-                                adipisicing elit. Aut earum perferendis nemo
-                                facilis nobis commodi ea, dolor laboriosam
-                                eveniet facere fugit reiciendis, sit deleniti
-                                necessitatibus corporis nostrum atque animi
-                                aspernatur?
+                                {data.desc}
                             </p>
 
                             <div className="flex ">
                                 <span className="title-font font-medium text-2xl text-gray-900 dark:text-white">
-                                    Rs. 1099
+                                    Rs. {data.price}
                                 </span>
                             </div>
                             <button className="ml-auto  mt-4 rounded-md bg-green-600 px-3.5 py-1.5 text-base font-semibold leading-7 text-white hover:bg-red-500">

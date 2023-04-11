@@ -2,6 +2,7 @@ import { Router } from 'express';
 import {
     createService,
     getServices,
+    getService,
 } from '../controllers/service.controller.js';
 import { useLogin, verifyVendor } from '../middlewares/auth.js';
 import { upload } from '../middlewares/uploadImage.js';
@@ -17,5 +18,6 @@ serviceRouter.post(
     createService,
 );
 serviceRouter.get('/', getServices);
+serviceRouter.get('/single', getService);
 
 export default serviceRouter;

@@ -24,9 +24,8 @@ const CreateCategory = ({ onSubmit }) => {
     const { data, isLoading, error, refetch } = useQuery(
         ['category'],
         async () => {
-            const response = await axios.get(`${API}/admin/category`, {
-                headers: { Authorization: `Bearer ${userToken}` },
-            });
+            const response = await axios.get(`${API}/admin/category`);
+            console.log(response);
             return response.data;
         },
     );
