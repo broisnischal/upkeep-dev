@@ -5,7 +5,6 @@ import ROLE from '../enums/roles.enum.js';
 
 export const useLogin = async (req, res, next) => {
     let token = req.headers.authorization || req.cookies.accesstoken;
-    console.log(token);
     if (!token) {
         return next(createError('Unauthorized !', 403));
     }
@@ -17,7 +16,6 @@ export const useLogin = async (req, res, next) => {
                     throw err;
                 }
                 const role = await User.findById(res.id).select('role');
-                console.log(role);
                 if (role == null) {
                     return next(createError('Unauthorized !', 403));
                 }
@@ -30,9 +28,7 @@ export const useLogin = async (req, res, next) => {
                 if (err) {
                     throw err;
                 }
-                console.log(res);
                 const role = await User.findById(res.id).select('role');
-                console.log(role);
                 if (role == null) {
                     return next(createError('Unauthorized !', 403));
                 }
@@ -54,7 +50,6 @@ export const useLogin = async (req, res, next) => {
 export const verifyCustomerAsWellAsAdmin = async () => {
     try {
         const role = req.role;
-        console.log(role);
         if (!role) return res.send(400).json({ message: 'Bad Request!' });
         if (role === ROLE.CUSTOMER || role === ROLE.ADMIN) return next();
     } catch (error) {

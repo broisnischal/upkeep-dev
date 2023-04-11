@@ -28,7 +28,7 @@ export const getPendingVendors = asyncHandler(async (req, res, next) => {
     const [limit, skip] = limitAndSkip(req.query);
 
     return res.status(200).send(
-        await VendorRequest.find({}, { skip, limit }).populate({
+        await VendorRequest.find({ skip, limit }).populate({
             path: 'user',
             select: '+role',
         }),

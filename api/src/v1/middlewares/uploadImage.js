@@ -1,30 +1,33 @@
 import multer from 'multer';
 
-// Set storage engine for multer
+import path from 'node:path';
+
 const storage = multer.diskStorage({
     destination: function (req, file, cb) {
-        cb(null, '../public/uploads');
+        cb(null, './uploads');
     },
     filename: function (req, file, cb) {
-        cb(null, file.originalname);
+        const uniqueSuffix =
+            Date.now() +
+            '-' +
+            Math.round(Math.random() * 1e9) +
+            path.extname(file.originalname);
+        cb(null, file.fieldname + '-' + uniqueSuffix);
     },
 });
 
-// Initialize multer upload middleware
-const upload = multer({
-    storage: storage,
-    limits: { fileSize: 4000000 }, // limit file size to 1MB
-}).single('image');
-
-// Middleware for uploading an image and passing the req.file object to the next middleware
-export const uploadImage = function (req, res, next) {
-    upload(req, res, function (err) {
-        if (err) {
-            return res.status(400).send('Error uploading file ' + err.message);
+export const upload = multer({
+    storage,
+    fileFilter: function (req, file, cb) {
+        const filetypes = /jpeg|png|jpg/;
+        const extname = filetypes.test(
+            path.extname(file.originalname).toLowerCase(),
+        );
+        const mimetype = filetypes.test(file.mimetype);
+        if (extname && mimetype) {
+            return cb(null, true);
+        } else {
+            cb(new Error('Error only, jpeg png are allowed'));
         }
-
-        // Pass the req.file object to the next middleware
-        req.imagePath = req.file.path;
-        next();
-    });
-};
+    },
+});

@@ -1,4 +1,5 @@
 import asyncHandler from 'express-async-handler';
+import address from 'address';
 import { createError } from '../config/createError.js';
 import Category from '../models/category.model.js';
 import mongoose from 'mongoose';
@@ -12,8 +13,8 @@ export const createService = asyncHandler(async (req, res, next) => {
     if (!title || !desc || !price)
         return next(createError('Invalid Request 2', 400));
 
-    if (!Number.isInteger(price))
-        return next(createError('Price must be number!', 400));
+    // if (!Number.isInteger(price))
+    //     return next(createError('Price must be number!', 400));
 
     if (price < 200) return next(createError('Price too less', 400));
 
@@ -25,13 +26,22 @@ export const createService = asyncHandler(async (req, res, next) => {
     const cad = await Category.findById(id);
     if (!!!cad) return next(createError("Category doesn't exists !"));
 
-    await new Service({
+    const service = new Service({
         user: req.user,
         category: id,
         title,
         desc,
         price,
-    }).save();
+    });
+
+    if (req.files) {
+        const server = process.env.SERVER;
+        req.files.map((file) => {
+            service.image.push(`${server}/${file.path}`);
+        });
+    }
+
+    await service.save();
 
     return res.status(200).send({ msg: 'Service created successfully!' });
 });

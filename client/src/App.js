@@ -33,6 +33,12 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import AdminRoute from './routes/AdminRoute.js';
 
 const queryClient = new QueryClient({});
+import VendorLayout from './components/Vendor/components/shared/VendorLayout.jsx';
+import VendorDashboard from './components/Vendor/pages/VendorDashboard.jsx';
+import UploadService from './components/Vendor/pages/AddService.jsx';
+import AddService from './components/Vendor/pages/AddService.jsx';
+import TotalOrders from './components/Vendor/pages/TotalOrders.jsx';
+import Chat from './components/Vendor/pages/Chat.jsx';
 
 const App = () => {
     const dispatch = useDispatch();
@@ -133,6 +139,15 @@ const App = () => {
                             </Route>
                         </Route>
                         {/* Vendor */}
+                        <Route path="/vendor" element={<VendorLayout />}>
+                            <Route index element={<VendorDashboard />} />
+                            <Route path="addservice" element={<AddService />} />
+                            <Route
+                                path="total-orders"
+                                element={<TotalOrders />}
+                            />
+                            <Route path="chat" element={<Chat />} />
+                        </Route>
 
                         <Route
                             path="/auth/activate/:id"

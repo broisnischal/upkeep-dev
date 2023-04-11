@@ -23,6 +23,7 @@ app.use(express.urlencoded({ extended: false }));
 app.use(cookieParser());
 app.use(cors({ origin: '*' }));
 app.use(express.static(path.join(__dirname, './src/v1/public/*')));
+app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
 
 // Routes configurations
 
