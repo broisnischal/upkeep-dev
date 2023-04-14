@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { useQuery } from '@tanstack/react-query';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
 import axios from 'axios';
 import { useSelector } from 'react-redux';
 import { API } from '../../../store';
@@ -10,6 +10,7 @@ const CreateCategory = ({ onSubmit }) => {
     const { userToken } = useSelector((state) => state.auth);
     const { register, handleSubmit, reset } = useForm();
     const [msg, setMsg] = useState('');
+    const queryClient = useQueryClient();
 
     // useEffect(() => {
     //     async function getCat() {
@@ -21,13 +22,8 @@ const CreateCategory = ({ onSubmit }) => {
     //     getCat();
     // }, []);
 
-    const { data, isLoading, error, refetch } = useQuery(
-        ['category'],
-        async () => {
-            const response = await axios.get(`${API}/admin/category`);
-            console.log(response);
-            return response.data;
-        },
+    const { data, isLoading, error, refetch } = useQuery(['category'], () =>
+        axios.get(`${API}/admin/category`),
     );
 
     const submitForm = (data) => {
@@ -40,11 +36,11 @@ const CreateCategory = ({ onSubmit }) => {
                     headers: { Authorization: `Bearer ${userToken}` },
                 },
             );
-            console.log(res);
+            // console.log(res);
+            queryClient.invalidateQueries('category');
         }
         createCategory();
         reset();
-        refetch();
     };
 
     return (
@@ -83,7 +79,7 @@ const CreateCategory = ({ onSubmit }) => {
                 {isLoading ? (
                     <Spinner />
                 ) : (
-                    data.map((item) => (
+                    data?.data?.map((item) => (
                         <div
                             className="bg-black/5 my-5 py-2 px-5"
                             key={item._id}

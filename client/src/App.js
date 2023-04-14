@@ -101,11 +101,11 @@ const App = () => {
                     <Route path="/service/:id" element={<SingleService />} />
                     <Route path="/order-confirm" element={<OrderConfirm />} />
                     <Route path="/checkout" element={<CheckoutForm />} />
-                    <Route path="/vendor" element={<Vendor />} />
+                    <Route path="/request/vendor" element={<Vendor />} />
 
                     {/* Admin */}
 
-                    <Route path="admin-login" element={<AdminLogin />} />
+                    {/* <Route path="admin-login" element={<AdminLogin />} /> */}
                     <Route element={<AdminRoute />}>
                         <Route path="/admin" element={<Layout />}>
                             <Route index element={<Dashboard />} />
