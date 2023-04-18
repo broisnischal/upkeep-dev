@@ -21,9 +21,12 @@ export default function Sidebar() {
     return (
         <div className="bg-[#0d1117] w-60 p-3 flex flex-col">
             <div className="flex items-center gap-2 px-1 py-3">
-                <span className="text-white font-bold text text-2xl text-center ml-12">
+                <Link
+                    to="/"
+                    className="text-white font-bold text text-2xl text-center ml-12"
+                >
                     UpKeep
-                </span>
+                </Link>
             </div>
             <div className="py-8 flex flex-1 flex-col gap-0.5">
                 {DASHBOARD_SIDEBAR_LINKS.map((link) => (

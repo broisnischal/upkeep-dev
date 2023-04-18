@@ -51,10 +51,12 @@ export const requestVendor = async (req, res, next) => {
             user: req.user,
         });
 
-        if (alreadyInPending)
-            return next(createError('Pending Approval!', 400));
-        if (req.role == 1 || req.role == 2)
+        if (alreadyInPending) {
+            return next(createError('Already in the Pending queue!', 200));
+        }
+        if (req.role == 1 || req.role == 2) {
             return next(createError('You already a vendor! ', 400));
+        }
         await new VendorRequest({
             user: req.user,
         }).save();
@@ -66,14 +68,14 @@ export const requestVendor = async (req, res, next) => {
 };
 
 export const updateProfile = async function (req, res) {
-    const filePath = req.imagePath;
-
     try {
-        const user = await User.findById(req.user);
-        user.profileImage = filePath;
-        await user.save();
-
-        res.send('Profile image updated');
+        if (req.file) {
+            const server = process.env.SERVER;
+            const user = await User.findById(req.user);
+            user.profile = `${server}/${req.file.path}`;
+            await user.save();
+            return res.send('Profile image updated');
+        }
     } catch (err) {
         console.error(err);
         res.status(500).send('Error saving profile image');

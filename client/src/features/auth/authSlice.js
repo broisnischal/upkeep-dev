@@ -1,5 +1,11 @@
 import { createSlice } from '@reduxjs/toolkit';
-import { userLogin, userRegister, activateUser } from './authActions';
+import {
+    userLogin,
+    userRegister,
+    activateUser,
+    forgetPassword,
+    resetPassword,
+} from './authActions';
 
 // initialize userToken from local storage
 const userToken = localStorage.getItem('token') ?? null;
@@ -11,6 +17,7 @@ const initialState = {
     userToken,
     error: null,
     success: false,
+    data: null,
 };
 
 const authSlice = createSlice({
@@ -18,10 +25,13 @@ const authSlice = createSlice({
     initialState,
     reducers: {
         logout: (state) => {
-            localStorage.removeItem('userToken');
+            localStorage.removeItem('token');
             state.logged = false;
             state.userToken = null;
             state.userInfo = null;
+            state.data = null;
+            state.success = null;
+            state.loading = false;
         },
     },
     extraReducers: {
@@ -62,6 +72,32 @@ const authSlice = createSlice({
             state.success = true;
         },
         [activateUser.rejected]: (state, { payload }) => {
+            state.error = payload;
+            state.loading = false;
+        },
+        [forgetPassword.pending]: (state) => {
+            state.loading = true;
+            state.error = null;
+        },
+        [forgetPassword.fulfilled]: (state, { payload }) => {
+            state.loading = false;
+            state.success = true;
+            state.data = payload;
+        },
+        [forgetPassword.rejected]: (state, { payload }) => {
+            state.error = payload;
+            state.loading = false;
+        },
+        [resetPassword.pending]: (state) => {
+            state.loading = true;
+            state.error = null;
+        },
+        [resetPassword.fulfilled]: (state, { payload }) => {
+            state.loading = false;
+            state.success = true;
+            state.data = payload;
+        },
+        [resetPassword.rejected]: (state, { payload }) => {
             state.error = payload;
             state.loading = false;
         },

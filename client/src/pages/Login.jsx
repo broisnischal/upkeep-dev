@@ -17,9 +17,9 @@ const Login = () => {
     );
     const { userToken } = useSelector((state) => state.auth);
 
-    const { data: details, isFetching } = useGetDetailsQuery('userDetails', {
-        pollingInterval: 900000,
-    });
+    // const { data: details, isFetching } = useGetDetailsQuery('userDetails', {
+    //     pollingInterval: 900000,
+    // });
 
     const dispatch = useDispatch();
     const navigate = useNavigate();
@@ -32,8 +32,6 @@ const Login = () => {
 
     const submitForm = (data) => {
         dispatch(userLogin(data));
-        // const details = useUserDetails();
-        dispatch(setCredentials(details));
     };
 
     return (

@@ -24,7 +24,7 @@ const ActivationSuccess = () => {
                 <h2 className="text-4xl font-bold mb-4 text-center text-white">
                     {loading ? <Spinner /> : 'Account Activated'}
                 </h2>
-                <h1 className="text-xl mb-4 text-center ">{error}</h1>
+                <h1 className="text-sm mb-4 text-center text-white">{error}</h1>
                 <p className="text-center text-white">
                     Your account has been successfully activated. You can now{' '}
                     <Link to="/login" className="text-green-500 font-medium">

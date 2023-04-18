@@ -33,15 +33,18 @@ const userSchema = new mongoose.Schema(
             default: false,
         },
         phone: String,
+        business_name: {
+            type: String,
+        },
         business_address: {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: 'Address',
+            type: String,
         },
         profile: {
             type: String,
             default:
                 'https://upload.wikimedia.org/wikipedia/commons/thumb/5/59/User-avatar.svg/2048px-User-avatar.svg.png',
         },
+        panno: { type: String },
     },
     {
         timestamps: true,

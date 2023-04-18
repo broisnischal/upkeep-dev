@@ -5,7 +5,7 @@ const CheckoutForm = () => {
     return (
         <>
             <Navbar />
-            <div className="isolate bg-white text-black  px-6 sm:py-32 lg:px-8">
+            <div className="isolate bg-white text-black  px-6 sm:py-10 lg:px-8">
                 <div className="mx-auto max-w-2xl text-center">
                     {/* <p className="mt-2 text-lg leading-8 text-black">
                         Checkout
@@ -139,7 +139,9 @@ const CheckoutForm = () => {
                             >
                                 <option value="">Select Payment Method</option>
                                 <option value="khalti">Khalti</option>
-                                <option value="cashondelivery" >Cash on Delivery</option>
+                                <option value="cashondelivery">
+                                    Cash on Delivery
+                                </option>
                             </select>
                         </div>
                     </div>
@@ -153,9 +155,9 @@ const CheckoutForm = () => {
                         </button>
                     </div>
                 </form>
-            </div >
+            </div>
             <Footer />
         </>
     );
-}
+};
 export default CheckoutForm;

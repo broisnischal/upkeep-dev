@@ -4,6 +4,7 @@ import Category from '../models/category.model.js';
 import VendorRequest from '../models/request.model.js';
 import User from '../models/user.model.js';
 import { limitAndSkip } from '../utils/utils.js';
+import Service from '../models/service.model.js';
 
 export const createCategory = asyncHandler(async (req, res, next) => {
     const { name, icon, color } = req.body;
@@ -22,6 +23,10 @@ export const createCategory = asyncHandler(async (req, res, next) => {
 
 export const getCategories = asyncHandler(async (req, res, next) => {
     return res.status(200).send(await Category.find());
+});
+
+export const getServices = asyncHandler(async (req, res, next) => {
+    return res.status(200).send(await Service.find());
 });
 
 export const getPendingVendors = asyncHandler(async (req, res, next) => {
@@ -63,7 +68,7 @@ export const approveOrRejectVendors = asyncHandler(async (req, res, next) => {
             await VendorRequest.findByIdAndDelete(_id);
             // send mail that you have been approved as the vendor
             return res.status(200).send({
-                msg: 'Vendor approved, congratulations for becoming vendor!',
+                msg: 'Vendor successfully approved!',
             });
         } else {
             const err = new Error();
@@ -71,11 +76,29 @@ export const approveOrRejectVendors = asyncHandler(async (req, res, next) => {
         }
     } else if (action == 'false') {
         // send mail that it's rejected
-        await VendorRequest.findByIdAndDelete(id);
-        res.status(451).send({ msg: 'Rejected for vendor!' });
+        const user = await User.findById(id);
+        console.log(user);
+
+        await VendorRequest.findOneAndDelete({ user: user._id });
+        return res.status(451).send({ msg: 'Rejected for vendor!' });
     } else {
         return next(
             createError('Invalid request, please provide action.', 403),
         );
     }
 });
+
+export const deleteService = async (req, res, next) => {
+    try {
+        const { id } = req.query || req.body;
+
+        const service = await Service.findByIdAndDelete(id);
+        if (service) {
+            return res.status(200).send({ msg: 'Service deleted' });
+        } else {
+            next(createError(404, 'Service not found'));
+        }
+    } catch (error) {
+        return next(createError(error));
+    }
+};

@@ -252,21 +252,35 @@ export const forgotPassword = asyncHandler(async (req, res, next) => {
 
         const link = `${process.env?.CLIENT_URI}/auth/reset/${resetToken}`;
 
-        sendMail(email, link)
-            .then((data) => {
-                console.log(data);
-                return res.json({
-                    msg: 'Please check your mail for activation link...',
-                    resetToken,
-                });
-            })
-            .catch((err) => {
-                console.log(err);
-                return res.status(408).json({
-                    msg: `Failed to send mail, Please try again later!`,
-                    resetToken,
-                });
+        // send reset email
+        const message = `
+         <h2>Hello, ${email}</h2><br>
+         <p>Please use the URL below to activate your account.</p>
+         <p>Your reset link is valid for 30 minutes.</p>
+         <br><br>
+         <a href="${link}" clicktracking="off">${link}</a>
+         <hr>
+         <span>Regards...</span>
+         <h3>Thank you...</h3>
+     `;
+
+        let subject = 'Activate your account | neeswebservices';
+        let sendTo = email;
+        let sendFrom = process.env.NOREPLY;
+
+        const result = await SendMail(subject, message, sendTo, sendFrom);
+
+        if (result) {
+            return res.json({
+                msg: 'Please check your mail for activation link...',
+                resetToken,
             });
+        } else {
+            return res.status(408).json({
+                msg: `Failed to send mail, Please try again later!`,
+                resetToken,
+            });
+        }
 
         // return res.send({ userToken, resetToken });
     } catch (error) {

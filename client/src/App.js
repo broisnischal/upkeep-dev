@@ -35,6 +35,8 @@ import AddService from './components/Vendor/pages/AddService.jsx';
 import TotalOrders from './components/Vendor/pages/TotalOrders.jsx';
 import Chat from './components/Vendor/pages/Chat.jsx';
 import VendorProtected from './routes/VendorProtected';
+import Reset from './pages/Reset.jsx';
+import Service from './components/Admin/pages/Service.jsx';
 
 const App = () => {
     const dispatch = useDispatch();
@@ -43,19 +45,20 @@ const App = () => {
     const { email, username, vendorAccess, admin, role } = useSelector(
         (state) => state.user,
     );
-    const { loading, logged, userInfo, error } = useSelector(
+    const { loading, logged, userToken, userInfo, error } = useSelector(
         (state) => state.auth,
     );
 
-    const { data, isFetching } = useGetDetailsQuery('userDetails', {
-        pollingInterval: 900000,
-    }); // 15 minute
+    const { data, isFetching, refetch } = useGetDetailsQuery('userDetails', {
+        pollingInterval: 900000, // 15 minutes
+    });
 
     useEffect(() => {
         if (data && !isFetching) {
+            refetch();
             dispatch(setCredentials(data));
         }
-    }, [data, dispatch]);
+    }, [data, dispatch, userToken]);
 
     // useEffect(() => {
     //     dispatch(getUser({ userToken }));
@@ -99,9 +102,17 @@ const App = () => {
                         element={<ActivationSuccess />}
                     />
                     <Route path="/service/:id" element={<SingleService />} />
-                    <Route path="/order-confirm" element={<OrderConfirm />} />
-                    <Route path="/checkout" element={<CheckoutForm />} />
-                    <Route path="/request/vendor" element={<Vendor />} />
+                    <Route element={<ProtectedRoute />}>
+                        <Route
+                            path="/order-confirm"
+                            element={<OrderConfirm />}
+                        />
+                        <Route
+                            path="/checkout/:id"
+                            element={<CheckoutForm />}
+                        />
+                        <Route path="/request/vendor" element={<Vendor />} />
+                    </Route>
 
                     {/* Admin */}
 
@@ -125,6 +136,7 @@ const App = () => {
                                 path="create-category"
                                 element={<CreateCategory />}
                             />
+                            <Route path="services" element={<Service />} />
                         </Route>
                     </Route>
                     {/* Vendor */}
@@ -141,6 +153,7 @@ const App = () => {
                     </Route>
 
                     <Route path="/auth/activate/:id" element={<Activate />} />
+                    <Route path="/auth/reset/:token" element={<Reset />} />
                     {/* <Route element={Error} /> */}
                 </Routes>
             </div>

@@ -25,6 +25,13 @@ const userSlice = createSlice({
             state.role = payload.role;
             state.id = payload._id;
         },
+        removeCredentials: (state) => {
+            state.vendor = false;
+            state.admin = false;
+            state.username = null;
+            state.role = 0;
+            state.id = null;
+        },
     },
     extraReducers: {
         [setUser.loading]: (state) => {
@@ -48,6 +55,6 @@ const userSlice = createSlice({
     },
 });
 
-export const { setCredentials } = userSlice.actions;
+export const { setCredentials, removeCredentials } = userSlice.actions;
 
 export default userSlice.reducer;

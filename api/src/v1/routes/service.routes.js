@@ -17,6 +17,7 @@ serviceRouter.post(
     upload.array('images', 10),
     createService,
 );
+
 serviceRouter.get('/', getServices);
 serviceRouter.get('/single', getService);
 

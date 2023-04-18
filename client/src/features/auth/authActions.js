@@ -18,8 +18,6 @@ export const userLogin = createAsyncThunk(
                 config,
             );
 
-            console.log(data);
-
             // set to localstorage
             localStorage.setItem('token', data.token);
 
@@ -55,7 +53,7 @@ export const userRegister = createAsyncThunk(
                 config,
             );
             console.log(data);
-            // return data;
+            return data;
         } catch (error) {
             if (error.response && error.response.data.msg) {
                 return rejectWithValue(error.response.data.msg);
@@ -72,6 +70,43 @@ export const activateUser = createAsyncThunk(
         try {
             console.log(id + ' activate user');
             const { data } = await axios.get(`${API}/auth/activate/${id}`);
+
+            return data;
+        } catch (error) {
+            if (error.response && error.response.data.msg) {
+                return rejectWithValue(error.response.data.msg);
+            } else {
+                return rejectWithValue(error.message);
+            }
+        }
+    },
+);
+
+export const forgetPassword = createAsyncThunk(
+    'user/forget',
+    async ({ email }, { rejectWithValue }) => {
+        try {
+            const { data } = await axios.post(`${API}/auth/forgot`, { email });
+            console.log(data);
+            return data;
+        } catch (error) {
+            if (error.response && error.response.data.msg) {
+                return rejectWithValue(error.response.data.msg);
+            } else {
+                return rejectWithValue(error.message);
+            }
+        }
+    },
+);
+
+export const resetPassword = createAsyncThunk(
+    'user/reset',
+    async ({ password, token }, { rejectWithValue }) => {
+        try {
+            const { data } = await axios.patch(`${API}/auth/reset/${token}`, {
+                password,
+            });
+            console.log(data);
             return data;
         } catch (error) {
             if (error.response && error.response.data.msg) {

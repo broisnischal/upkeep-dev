@@ -12,7 +12,6 @@ const AddService = () => {
     const { userToken } = useSelector((state) => state.auth);
 
     const onSubmit = async (data) => {
-        console.log(data);
         const formData = new FormData();
         formData.append('title', data.title);
         formData.append('price', data.price);
@@ -120,11 +119,12 @@ const AddService = () => {
                             {...register('category')}
                         >
                             <option value="">Select a category</option>
-                            {data?.map((item, index) => (
-                                <option key={index} value={item._id}>
-                                    {item.name}
-                                </option>
-                            ))}
+                            {!isLoading &&
+                                data?.map((item, index) => (
+                                    <option key={index} value={item._id}>
+                                        {item.name}
+                                    </option>
+                                ))}
                         </select>
                         <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
                             <svg

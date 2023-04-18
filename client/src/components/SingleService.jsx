@@ -6,6 +6,7 @@ import Spinner from './Spinner.jsx';
 import axios from 'axios';
 import { API } from '../store.js';
 import Footer from './Footer.jsx';
+import { Link } from 'react-router-dom';
 
 const SingleService = () => {
     const { id } = useParams();
@@ -22,7 +23,6 @@ const SingleService = () => {
     if (isFetching) {
         return <Spinner />;
     }
-    console.log(data);
 
     return (
         <>
@@ -37,6 +37,11 @@ const SingleService = () => {
                         />
                         <div className="lg:w-1/2 w-full lg:pl-10 lg:py-6 mt-6 lg:mt-0">
                             <h2 className="text-sm title-font text-gray-500 dark:text-gray-300 tracking-widest">
+                                <img
+                                    src={data?.user?.profile}
+                                    alt={data.name}
+                                    className="w-4 h-4 rounded-full inline-block mr-5"
+                                />
                                 {data?.user?.name}
                             </h2>
                             <h1 className="text-gray-900 dark:text-white text-3xl title-font font-medium mb-1">
@@ -100,7 +105,7 @@ const SingleService = () => {
                                         <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"></path>
                                     </svg>
                                     <span className="text-gray-600 dark:text-gray-300 ml-3">
-                                        4 Reviews
+                                        {data?.reviews} Reviews
                                     </span>
                                 </span>
                             </div>
@@ -113,9 +118,12 @@ const SingleService = () => {
                                     Rs. {data.price}
                                 </span>
                             </div>
-                            <button className="ml-auto  mt-4 rounded-md bg-green-600 px-3.5 py-1.5 text-base font-semibold leading-7 text-white hover:bg-red-500">
+                            <Link
+                                to={`/checkout/${data._id}`}
+                                className="ml-auto  mt-4 rounded-md bg-green-600 px-3.5 py-1.5 text-base font-semibold leading-7 text-white hover:bg-red-500"
+                            >
                                 Book Now
-                            </button>
+                            </Link>
                         </div>
                     </div>
                 </div>

@@ -1,17 +1,21 @@
-import { Router } from "express"
+import { Router } from 'express';
 import {
-	approveOrRejectVendors,
-	createCategory,
-	getCategories,
-	getPendingVendors,
-} from "../controllers/admin.controller.js"
-import { verifyAdmin, useLogin } from "../middlewares/auth.js"
+    approveOrRejectVendors,
+    createCategory,
+    deleteService,
+    getCategories,
+    getPendingVendors,
+    getServices,
+} from '../controllers/admin.controller.js';
+import { verifyAdmin, useLogin } from '../middlewares/auth.js';
 
-const adminRouter = Router()
+const adminRouter = Router();
 
-adminRouter.post("/category", useLogin, verifyAdmin, createCategory)
-adminRouter.get("/category", getCategories)
-adminRouter.get("/pending_vendors", getPendingVendors)
-adminRouter.patch("/vendor", useLogin, verifyAdmin, approveOrRejectVendors)
+adminRouter.post('/category', useLogin, verifyAdmin, createCategory);
+adminRouter.get('/category', getCategories);
+adminRouter.get('/pending_vendors', getPendingVendors);
+adminRouter.patch('/vendor', useLogin, verifyAdmin, approveOrRejectVendors);
+adminRouter.get('/service', useLogin, verifyAdmin, getServices);
+adminRouter.delete('/service', useLogin, verifyAdmin, deleteService);
 
-export default adminRouter
+export default adminRouter;

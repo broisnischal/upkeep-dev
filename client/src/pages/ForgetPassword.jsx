@@ -1,12 +1,20 @@
 import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
+import { useForm } from 'react-hook-form';
+import { API } from '../store';
+import { useDispatch, useSelector } from 'react-redux';
+import { forgetPassword } from '../features/auth/authActions';
+import Error from '../components/Error';
+import Spinner from '../components/Spinner';
 
 const ForgetPassword = () => {
-    const [email, setEmail] = useState('');
+    const { error, loading, data: dataa } = useSelector((state) => state.auth);
+    const { register, handleSubmit, reset } = useForm();
+    const dispatch = useDispatch();
 
-    const handleSubmit = (event) => {
-        event.preventDefault();
-        // TODO: Handle form submission
+    const submitHandler = async (data) => {
+        dispatch(forgetPassword({ email: data.email }));
+        reset();
     };
 
     return (
@@ -15,7 +23,11 @@ const ForgetPassword = () => {
                 <h2 className="text-4xl font-bold mb-4 text-green-500">
                     Forget Password
                 </h2>
-                <form onSubmit={handleSubmit}>
+                <form onSubmit={handleSubmit(submitHandler)}>
+                    {error && <Error>{error}</Error>}
+                    {dataa?.msg && (
+                        <p className="text-white mb-6">{dataa?.msg}</p>
+                    )}
                     <div className="mb-4">
                         <label
                             className="block font-bold mb-2 text-white"
@@ -27,16 +39,15 @@ const ForgetPassword = () => {
                             className="w-full border-gray-300 p-3 rounded-lg outline-none"
                             type="email"
                             id="email"
-                            placeholder='Enter registered email'
+                            placeholder="Enter registered email"
                             name="email"
-                            value={email}
-                            onChange={(event) => setEmail(event.target.value)}
+                            {...register('email')}
                             required
                         />
                     </div>
                     <div className="flex justify-center">
-                        <button className="bg-green-500 text-white font-bold py-2 px-4 rounded-md hover:bg-red-700 focus:outline-none focus:shadow-outline">
-                            Send Link
+                        <button className="bg-green-500 text-white font-bold py-2 px-4 rounded-md hover:bg-red-700 focus:outline-none focus:shadow-outline relative">
+                            {loading ? <Spinner /> : 'Send Link'}
                         </button>
                     </div>
                 </form>

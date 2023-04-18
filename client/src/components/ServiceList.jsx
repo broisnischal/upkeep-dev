@@ -17,6 +17,8 @@ const ServiceList = () => {
         refetch,
     } = useQuery(['services'], () => axios.get(`${API}/service`));
 
+    console.log(products);
+
     if (isLoading) {
         return <Spinner />;
     }
