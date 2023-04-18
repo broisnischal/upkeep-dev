@@ -21,6 +21,20 @@ export const createCategory = asyncHandler(async (req, res, next) => {
     return res.status(200).send(cat);
 });
 
+export const deleteCategory = asyncHandler(async (req, res, next) => {
+    const { id } = req.query || req.body;
+
+    if (!id) return res.status(400).send({ msg: 'Please provide category Id' });
+
+    const category = await Category.findByIdAndDelete(id);
+
+    if (category) {
+        return res.status(200).send('Category deleted!');
+    } else {
+        return res.status(404).send('Category not found!');
+    }
+});
+
 export const getCategories = asyncHandler(async (req, res, next) => {
     return res.status(200).send(await Category.find());
 });

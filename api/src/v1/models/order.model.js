@@ -7,22 +7,14 @@ const OrderSchema = new mongoose.Schema(
             ref: 'User',
             required: true,
         },
-        orderItems: [
-            {
-                serviceId: {
-                    type: mongoose.Schema.Types.ObjectId,
-                    ref: 'Service',
-                },
-                checked: {
-                    type: Boolean,
-                    default: true,
-                },
-            },
-        ],
-        total: {
-            type: Number,
+        customerId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'User',
             required: true,
-            min: [200, 'Too few Price!'],
+        },
+        serviceId: {
+            type: mongoose.Schema.Types.ObjectId,
+            ref: 'Service',
         },
         status: {
             type: String,
@@ -31,6 +23,17 @@ const OrderSchema = new mongoose.Schema(
                 message: 'Value error, Invalid Request !',
             },
             default: 'pending',
+        },
+        name: { type: String },
+        address: {
+            type: String,
+        },
+        phone: {
+            type: String,
+        },
+        time: {
+            type: String,
+            default: Date.now,
         },
     },
     {

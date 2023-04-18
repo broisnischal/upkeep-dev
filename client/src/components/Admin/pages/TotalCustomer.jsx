@@ -50,6 +50,12 @@ function Totalcostumer() {
                                 Email
                             </th>
                             <th className="p-3 font-medium text-left text-gray-800 border border-gray-300">
+                                PAN
+                            </th>
+                            <th className="p-3 font-medium text-left text-gray-800 border border-gray-300">
+                                Address
+                            </th>
+                            <th className="p-3 font-medium text-left text-gray-800 border border-gray-300">
                                 Phone
                             </th>
                         </tr>
@@ -76,6 +82,12 @@ function Totalcostumer() {
                                 </td>
                                 <td className="p-3 text-sm font-medium text-gray-800 border border-gray-300">
                                     {user.email}
+                                </td>
+                                <td className="p-3 text-sm font-medium text-gray-800 border border-gray-300">
+                                    {user.panno}
+                                </td>
+                                <td className="p-3 text-sm font-medium text-gray-800 border border-gray-300">
+                                    {user?.address}
                                 </td>
                                 <td className="p-3 text-sm font-medium text-gray-800 border border-gray-300">
                                     {user.phone}

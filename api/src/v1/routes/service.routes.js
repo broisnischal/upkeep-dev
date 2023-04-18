@@ -3,6 +3,7 @@ import {
     createService,
     getServices,
     getService,
+    getSingleService,
 } from '../controllers/service.controller.js';
 import { useLogin, verifyVendor } from '../middlewares/auth.js';
 import { upload } from '../middlewares/uploadImage.js';
@@ -19,6 +20,7 @@ serviceRouter.post(
 );
 
 serviceRouter.get('/', getServices);
+serviceRouter.get('/single', getSingleService);
 serviceRouter.get('/single', getService);
 
 export default serviceRouter;

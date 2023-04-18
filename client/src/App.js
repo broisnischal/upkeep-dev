@@ -37,6 +37,7 @@ import Chat from './components/Vendor/pages/Chat.jsx';
 import VendorProtected from './routes/VendorProtected';
 import Reset from './pages/Reset.jsx';
 import Service from './components/Admin/pages/Service.jsx';
+import EditProfile from './components/EditProfile.jsx';
 
 const App = () => {
     const dispatch = useDispatch();
@@ -80,6 +81,11 @@ const App = () => {
      *todo enwrap the folder inside the proper folder and create cusom error popup
      */
 
+    /**
+     *? Edit profile page
+     *
+     */
+
     return (
         <>
             <div>
@@ -103,6 +109,10 @@ const App = () => {
                     />
                     <Route path="/service/:id" element={<SingleService />} />
                     <Route element={<ProtectedRoute />}>
+                        <Route
+                            path="/edit-profile"
+                            element={<EditProfile refetch={refetch} />}
+                        />
                         <Route
                             path="/order-confirm"
                             element={<OrderConfirm />}

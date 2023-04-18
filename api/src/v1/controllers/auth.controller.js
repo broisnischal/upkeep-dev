@@ -24,6 +24,7 @@ export const authRegister = async (req, res, next) => {
         const email = sanitize(req.body.email);
         const username = sanitize(req.body.username);
         const password = sanitize(req.body.password);
+        const address = sanitize(req.body.address);
 
         if (!email || !username || !password)
             return res.status(400).json({ msg: 'Please enter all fields! ' });
@@ -54,7 +55,7 @@ export const authRegister = async (req, res, next) => {
                 msg: 'Password must contain one uppercase, symbol, number, and atleast 8 characters !',
             });
 
-        const token = generateToken({ email, username, password });
+        const token = generateToken({ email, username, address, password });
 
         const link = `${process.env.CLIENT_URI}/auth/activate/${token}`;
 
@@ -131,7 +132,7 @@ export const authActivate = async (req, res, next) => {
 
         jwt.verify(token, process.env.AUTH_SECRET, async (err, result) => {
             if (err) return res.status(403).send({ msg: 'Unauthorized !' });
-            const { username, email, password } = result;
+            const { username, address, email, password } = result;
             if (await User.findOne({ $or: [{ username, email }] }))
                 return res.status(403).json({
                     msg: 'User Already Activated | Please Login !',
@@ -139,6 +140,7 @@ export const authActivate = async (req, res, next) => {
             await User.create({
                 username,
                 email,
+                address,
                 password,
             })
                 .then((msg) => {

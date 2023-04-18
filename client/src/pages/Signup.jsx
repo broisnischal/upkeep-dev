@@ -87,20 +87,7 @@ const SignupPage = () => {
                             className="w-full  rounded-md border border-gray-400 p-2"
                         />
                     </div>
-                    {/* <div className="mb-4">
-                        <label
-                            htmlFor="address"
-                            className="block text-gray-700 font-bold mb-2"
-                        >
-                            Address:
-                        </label>
-                        <input
-                            type="text"
-                            id="address"
-                            name="address"
-                            className="w-[420px] rounded-md border border-gray-400 p-2"
-                        />
-                    </div> */}
+
                     <div className="mb-4">
                         <label
                             htmlFor="email"

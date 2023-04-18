@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { AiOutlineClose, AiOutlineMenu } from 'react-icons/ai';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { logout } from '../features/auth/authSlice';
 import { removeCredentials } from '../features/user/userSlice';
@@ -9,6 +9,7 @@ const Navbar = () => {
     const { loading, logged } = useSelector((state) => state.auth);
     const { admin, vendor } = useSelector((state) => state.user);
     const [nav, setNav] = useState(false);
+    const navigate = useNavigate();
     const dispatch = useDispatch();
 
     const handleNav = () => {
@@ -18,6 +19,7 @@ const Navbar = () => {
     const handleLogout = () => {
         dispatch(removeCredentials());
         dispatch(logout());
+        navigate('/');
     };
 
     return (
@@ -38,6 +40,12 @@ const Navbar = () => {
                 <Link to="/about" className="p-4">
                     About
                 </Link>
+                {logged && (
+                    <Link to={'/edit-profile'} className="p-4">
+                        Profile
+                    </Link>
+                )}
+
                 {admin === true && logged === true && (
                     <Link to="/admin" className="p-4">
                         Admin
@@ -56,17 +64,19 @@ const Navbar = () => {
                 )}
 
                 {logged ? (
-                    <button
-                        onClick={handleLogout}
-                        className="p-4 text-center font-medium rounded-md w-24 px-3 text-black bg-[#00df9a]"
-                        style={{
-                            height: '40px',
-                            paddingTop: '9px',
-                            marginTop: '6px',
-                        }}
-                    >
-                        Logout
-                    </button>
+                    <>
+                        <button
+                            onClick={handleLogout}
+                            className="p-4 text-center font-medium rounded-md w-24 px-3 text-black bg-[#00df9a]"
+                            style={{
+                                height: '40px',
+                                paddingTop: '9px',
+                                marginTop: '6px',
+                            }}
+                        >
+                            Logout
+                        </button>
+                    </>
                 ) : (
                     <>
                         <Link

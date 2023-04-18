@@ -5,6 +5,8 @@ import { useSelector } from 'react-redux';
 import { API } from '../../../store';
 import { useForm } from 'react-hook-form';
 import Spinner from '../../Spinner';
+import { AiOutlineDelete } from 'react-icons/ai';
+import { toast } from 'react-toastify';
 
 const CreateCategory = ({ onSubmit }) => {
     const { userToken } = useSelector((state) => state.auth);
@@ -42,6 +44,17 @@ const CreateCategory = ({ onSubmit }) => {
         createCategory();
         reset();
     };
+    const deleteCategory = async (id) => {
+        const data = await axios.delete(
+            `${API}/admin/category?id=${id}`,
+            {},
+            {
+                headers: { Authorization: `Bearer ${userToken}` },
+            },
+        );
+        toast.success(data.data);
+        queryClient.invalidateQueries('category');
+    };
 
     return (
         <>
@@ -75,16 +88,22 @@ const CreateCategory = ({ onSubmit }) => {
                     </button>
                 </div>
             </form>
-            <div className='"w-full max-w-sm  ml-10   mt-12'>
+            <div className="w-48 ml-10 ">
                 {isLoading ? (
                     <Spinner />
                 ) : (
                     data?.data?.map((item) => (
                         <div
-                            className="bg-black/5 my-5 py-2 px-5"
+                            className="bg-black text-white rounded my-5 py-2 px-5 flex align-middle justify-between"
                             key={item._id}
                         >
                             {item.name}
+                            <button
+                                onClick={(e) => deleteCategory(item._id)}
+                                className="text-red-500 hover:text-red-600"
+                            >
+                                <AiOutlineDelete size={18} />
+                            </button>
                         </div>
                     ))
                 )}
